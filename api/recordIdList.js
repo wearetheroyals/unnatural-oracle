@@ -1,14 +1,14 @@
 const select = require('./db/select');
 
 module.exports = async (req, res) => {
-  let titles;
-  console.log(req);
+  let result, status;
   try {
-    titles = await select();
-    // console.log('AAAAAAAAAA');
+    let query = JSON.parse(req.body);
+    result = await select(query);
+    status = 200;
   } catch (e) {
-    // console.log('LKJLJHKLHKJH');
-    titles = e;
+    result = e;
+    status = 501;
   }
-  res.status(200).send(titles);
+  res.status(status).send(result);
 };

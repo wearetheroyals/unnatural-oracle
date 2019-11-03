@@ -14,11 +14,7 @@ const select = query => {
   return new Promise(async function(resolve, reject) {
     const resultObj = await db(dbName).select(query);
     const err = await resultObj.eachPage((records, fetchNextPage) => page(records, fetchNextPage));
-    if (err) {
-      reject(err);
-    } else {
-      resolve(result);
-    }
+    err ? reject(err) : resolve(result);
   });
 };
 
