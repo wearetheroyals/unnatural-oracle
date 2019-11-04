@@ -1,17 +1,19 @@
 <script>
   import { onMount } from "svelte";
+  import Query from "./airtable/Query";
   let titles;
 
   const defaultQuery = {
+    table: "Spark",
     maxRecords: 3,
-    view: "default"
+    fields: ["Title", "Content", "Tags", "Contributor"]
   };
 
   onMount(async () => {
-    // const res = await fetch("/api/date");
+    const query = new Query(defaultQuery);
     const res = await fetch("/api/recordIdList", {
       method: "POST",
-      body: JSON.stringify(defaultQuery)
+      body: JSON.stringify(query)
     });
     titles = await res.text();
   });
