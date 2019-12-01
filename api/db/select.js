@@ -12,9 +12,12 @@ const page = (records, fetchNextPage) => {
 };
 
 const select = query => {
+  console.log(query);
   return new Promise(async function(resolve, reject) {
     const resultObj = await db(query.table).select(query.options);
-    const err = await resultObj.eachPage((records, fetchNextPage) => page(records, fetchNextPage));
+    const err = await resultObj.eachPage((records, fetchNextPage) =>
+      page(records, fetchNextPage),
+    );
     err ? reject(err) : resolve(result);
   });
 };
