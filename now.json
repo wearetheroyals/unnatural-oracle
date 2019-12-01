@@ -1,0 +1,6 @@
+{
+  "env": {
+    "DB_KEY": "@sparky_db_key",
+    "DB_ID": "@sparky_db_id"
+  }
+}
