@@ -18,8 +18,8 @@
       SPARK.FIELDS.CONTENT,
       SPARK.FIELDS.TAGS,
       SPARK.FIELDS.ACTIONS
-    ],
-    filterByFormula: `{${SPARK.FIELDS.IS_PUBLISHED}}`
+    ]
+    // filterByFormula: `{${SPARK.FIELDS.IS_PUBLISHED}}`
   };
 
   const getRandomSpark = async () => {
@@ -31,10 +31,21 @@
     }
   };
 
+  const getTimeDiff = (startTime, endTime) => {
+    return ((endTime - startTime) / 1000).toFixed(2);
+  };
+
   onMount(async () => {
     isLoading = true;
     const query = new Query(defaultQuery);
+
+    const fStart = performance.now();
     const dbcontent = await fetchRecords(query);
+    const fEnd = performance.now();
+    console.log(
+      `Time to fetch Airtable records: ${getTimeDiff(fStart, fEnd)} seconds.`
+    );
+
     sparks = dbcontent.map(sparkData => new Spark().parse(sparkData));
     isLoading = false;
     getRandomSpark();

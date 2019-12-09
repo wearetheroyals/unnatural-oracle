@@ -10,5 +10,6 @@ module.exports = async (req, res) => {
     result = e;
     status = 501;
   }
+  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate');
   res.status(status).send(result);
 };
