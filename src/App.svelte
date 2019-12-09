@@ -2,63 +2,63 @@
   import { onMount } from "svelte";
   import Query from "./airtable/Query";
   import SparkView from "./SparkView.svelte";
+  import Spark from "./model/Spark";
 
   let sparks = [];
-  let currentSpark = {};
+  let currentSpark;
   let isLoading = false;
 
   const defaultQuery = {
     table: "spark",
     maxRecords: 500,
-    fields: ["title", "content"]
+    fields: ["title", "content", "tags", "actions"],
+    filterByFormula: "{published}"
   };
 
   const fetchSparks = () => {
     return new Promise(async (resolve, reject) => {
       isLoading = true;
-
       const query = new Query(defaultQuery);
-      console.log(query);
       const res = await fetch("/api/recordIdList", {
         method: "POST",
         body: JSON.stringify(query)
       });
-
       const result = await res.text();
       const data = JSON.parse(result);
-      console.log(data);
+      console.log(`Retreived ${data.length} records.`);
       isLoading = false;
       resolve(data);
     });
   };
 
   const getRandomSpark = async () => {
-    const rnd = Math.round(Math.random() * (sparks.length - 1));
-    currentSpark = { ...sparks[rnd] };
+    if (sparks.length > 0) {
+      const rnd = Math.round(Math.random() * (sparks.length - 1));
+      currentSpark = sparks[rnd].clone();
+    } else {
+      console.log("Can't display random spark :: No records available");
+    }
   };
 
   onMount(async () => {
-    sparks = await fetchSparks();
+    const dbcontent = await fetchSparks();
+    sparks = dbcontent.map(sparkData => new Spark().parse(sparkData));
     getRandomSpark();
   });
+
+  const handleBtnClick = e => {
+    e.preventDefault();
+    getRandomSpark();
+  };
 </script>
 
 <main>
   {#if isLoading}
     <p>...loading...</p>
-  {:else}
+  {:else if currentSpark != null}
     <div class="card">
-      <h1>{currentSpark.title || 'Thoughtstarter'}</h1>
-      <p>{currentSpark.content}</p>
-      <a
-        class="btn"
-        on:click={e => {
-          e.preventDefault();
-          getRandomSpark();
-        }}
-        href="/">
-        ☞
-      </a>
+      <SparkView data={currentSpark || null} />
+      <a class="btn" on:click={handleBtnClick} href="/">☞</a>
     </div>
   {/if}
 </main>
