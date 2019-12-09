@@ -1,34 +1,25 @@
 <script>
   import { onMount } from "svelte";
-  import Query from "./airtable/Query";
+  import { SPARK } from "./data/tables";
+  import Query from "./data/Query";
+  import Spark from "./data/Spark";
   import SparkView from "./SparkView.svelte";
-  import Spark from "./model/Spark";
+  import fetchRecords from "./db/fetchRecords";
 
   let sparks = [];
   let currentSpark;
   let isLoading = false;
 
   const defaultQuery = {
-    table: "spark",
+    table: SPARK.NAME,
     maxRecords: 500,
-    fields: ["title", "content", "tags", "actions"],
-    filterByFormula: "{published}"
-  };
-
-  const fetchSparks = () => {
-    return new Promise(async (resolve, reject) => {
-      isLoading = true;
-      const query = new Query(defaultQuery);
-      const res = await fetch("/api/recordIdList", {
-        method: "POST",
-        body: JSON.stringify(query)
-      });
-      const result = await res.text();
-      const data = JSON.parse(result);
-      console.log(`Retreived ${data.length} records.`);
-      isLoading = false;
-      resolve(data);
-    });
+    fields: [
+      SPARK.FIELDS.TITLE,
+      SPARK.FIELDS.CONTENT,
+      SPARK.FIELDS.TAGS,
+      SPARK.FIELDS.ACTIONS
+    ],
+    filterByFormula: `{${SPARK.FIELDS.IS_PUBLISHED}}`
   };
 
   const getRandomSpark = async () => {
@@ -41,8 +32,11 @@
   };
 
   onMount(async () => {
-    const dbcontent = await fetchSparks();
+    isLoading = true;
+    const query = new Query(defaultQuery);
+    const dbcontent = await fetchRecords(query);
     sparks = dbcontent.map(sparkData => new Spark().parse(sparkData));
+    isLoading = false;
     getRandomSpark();
   });
 

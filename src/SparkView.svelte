@@ -1,14 +1,6 @@
 <script>
-  import Spark from "./model/Spark";
+  import Spark from "./data/Spark";
   export let data = new Spark();
-  // const data = new Spark();
-  // const obj = {
-  //   title: "TITLE",
-  //   content: "Content of the spark",
-  //   // tags: ["1", "2", "3"],
-  //   actions: ["2", "3"]
-  // };
-  // data.parse(obj);
 </script>
 
 <div class="spark">
