@@ -35,4 +35,8 @@ export default class Query {
       options: this._options,
     };
   }
+
+  toString() {
+    return JSON.stringify(this.toJSON());
+  }
 }
