@@ -1,42 +1,49 @@
 export default class Query {
   constructor({
-    table,
+    method,
     fields = null,
     filterByFormula = null,
     maxRecords = null,
-    pageSize = null,
     sort = null,
-    view = null,
   }) {
-    this._table = table;
-    const opts = {};
+    this._method = method;
+    const params = {};
 
-    fields ? (opts.fields = [...fields]) : null;
-    filterByFormula ? (opts.filterByFormula = filterByFormula) : null;
-    maxRecords ? (opts.maxRecords = maxRecords * 1) : null;
-    pageSize ? (opts.pageSize = pageSize * 1) : null;
-    sort ? (opts.sort = [...sort]) : null;
-    view ? (opts.view = view) : null;
+    fields ? (params.fields = [...fields]) : null;
+    filterByFormula ? (params.filterByFormula = filterByFormula) : null;
+    maxRecords ? (params.maxRecords = maxRecords * 1) : null;
+    sort ? (params.sort = [...sort]) : null;
 
-    this._options = opts;
+    this._params = params;
   }
 
   get table() {
-    return this._table;
+    return this.method;
+  }
+
+  get method() {
+    return this._method;
   }
 
   get options() {
-    return JSON.parse(JSON.stringify(this._options));
+    console.log('The options property is deprecated. Use params instead.');
+    return this.params;
+  }
+
+  get params() {
+    return JSON.parse(JSON.stringify(this._params));
   }
 
   toJSON() {
-    return {
-      table: this._table,
-      options: this._options,
-    };
+    const str = JSON.stringify({
+      method: this.method,
+      params: this._params,
+    });
+    console.log(str);
+    return str;
   }
 
-  toString() {
-    return JSON.stringify(this.toJSON());
-  }
+  // toString() {
+  //   return JSON.stringify(this.toJSON());
+  // }
 }

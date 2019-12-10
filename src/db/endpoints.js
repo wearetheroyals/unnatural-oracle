@@ -1,7 +1,11 @@
 const base = '/api';
 
 const endpoints = {
-  GET_RECORDS: `${base}/getRecords`,
+  GET: {
+    RECORD: `${base}/record`,
+    RECORDS: `${base}/records`,
+    RECORD_INDEX: `${base}/index`,
+  },
 };
 
 export default endpoints;

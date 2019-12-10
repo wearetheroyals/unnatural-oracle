@@ -1,8 +1,9 @@
 import ENDPOINTS from './endpoints';
+
 const fetchRecords = query => {
   return new Promise(async (resolve, reject) => {
     try {
-      const res = await fetch(ENDPOINTS.GET.RECORDS, {
+      const res = await fetch(ENDPOINTS.GET.RECORD, {
         method: 'POST',
         body: JSON.stringify(query),
       });
