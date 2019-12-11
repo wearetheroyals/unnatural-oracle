@@ -8,7 +8,8 @@ module.exports = async (req, res) => {
 
   try {
     let query = JSON.parse(req.body);
-    records = await apiRequest(query.method, query.params);
+    records = await apiRequest(query.endpoint, query.querystring);
+    // records = await apiRequest(query.endpoint);
     records = records.map(record => record.fields);
   } catch (e) {
     message = e.message;

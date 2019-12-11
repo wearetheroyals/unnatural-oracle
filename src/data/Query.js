@@ -1,33 +1,51 @@
+// Note on sort direction:
+// See utitlity class SortDir for managing sort direction strings
+// as applicartion-wide constants
+
+import SortDir from '../util/SortDir';
+import { isNumber, isNonEmptyString, isNonEmptyArray } from '../util/valueTests';
+
 export default class Query {
-  constructor({
-    method,
-    fields = null,
-    filterByFormula = null,
-    maxRecords = null,
-    sort = null,
-  }) {
-    this._method = method;
+  constructor(
+    endpoint,
+    {
+      fields = null,
+      filterByFormula = null,
+      maxRecords = null,
+      sortBy = null,
+      sortDir = null,
+    } = {},
+  ) {
+    this._endpoint = endpoint;
+
     const params = {};
-
-    fields ? (params.fields = [...fields]) : null;
-    filterByFormula ? (params.filterByFormula = filterByFormula) : null;
-    maxRecords ? (params.maxRecords = maxRecords * 1) : null;
-    sort ? (params.sort = [...sort]) : null;
-
+    isNonEmptyArray(fields) ? (params.fields = [...fields]) : null;
+    isNonEmptyString(filterByFormula) ? (params.filterByFormula = filterByFormula) : null;
+    isNumber(maxRecords) ? (params.maxRecords = maxRecords * 1) : null;
+    isNonEmptyString(sortBy) ? (params.sortBy = sortBy) : null;
+    isNonEmptyString(sortDir)
+      ? (params.sortDir = sortDir)
+      : sortBy
+      ? SortDir.ASCENDING
+      : null;
     this._params = params;
   }
 
-  get table() {
-    return this.method;
+  get endpoint() {
+    console.log(`Get endpoint : ${this._endpoint}`);
+    return this._endpoint;
   }
 
-  get method() {
-    return this._method;
-  }
-
-  get options() {
-    console.log('The options property is deprecated. Use params instead.');
-    return this.params;
+  get querystring() {
+    return Object.keys(this._params)
+      .map(key => {
+        let param = this._params[key];
+        const encoded = Array.isArray(param)
+          ? param.map(i => encodeURIComponent(i)).join(',')
+          : encodeURIComponent(param);
+        return `${key}=${encoded}`;
+      })
+      .join('&');
   }
 
   get params() {
@@ -35,15 +53,6 @@ export default class Query {
   }
 
   toJSON() {
-    const str = JSON.stringify({
-      method: this.method,
-      params: this._params,
-    });
-    console.log(str);
-    return str;
+    return { endpoint: this.endpoint, params: this.params };
   }
-
-  // toString() {
-  //   return JSON.stringify(this.toJSON());
-  // }
 }

@@ -2,10 +2,9 @@ import ENDPOINTS from './endpoints';
 import TABLE from '../data/tables';
 import Query from '../data/Query';
 
-const getRecordIndex = () => {
-  const query = new Query({
-    method: '/spark',
-    select: [TABLE.SPARK.FIELDS.ID],
+const fetchIndex = () => {
+  const query = new Query('/spark', {
+    fields: [TABLE.SPARK.FIELDS.IS_PUBLISHED],
     filterByFormula: `{${TABLE.SPARK.FIELDS.IS_PUBLISHED}}`,
   });
 
@@ -16,7 +15,7 @@ const getRecordIndex = () => {
     };
 
     try {
-      const res = await fetch(ENDPOINTS.GET.RECORD_INDEX, {
+      const res = await fetch(ENDPOINTS.GET.INDEX, {
         method: 'POST',
         body: JSON.stringify(query),
       });
@@ -30,4 +29,4 @@ const getRecordIndex = () => {
   });
 };
 
-export default getRecordIndex;
+export default fetchIndex;

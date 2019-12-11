@@ -6,23 +6,25 @@ const ax = require('axios').create({
   },
 });
 
-const nextPage = async (method, params = {}, records = []) => {
+const nextPage = async (endpoint, params = {}, items = []) => {
+  console.log('Sending API request to ' + endpoint);
   return new Promise((resolve, reject) => {
-    ax.get(method, { params })
+    ax.get(endpoint, { params })
       .then(function(response) {
-        const { offset } = response.data;
-        records = [...records, ...response.data.records];
-
+        const offset = response.data.offset;
+        const records = response.data.records ? response.data.records : [response.data];
+        items = [...items, ...records];
         if (offset) {
           // more pages to fetch, so recursion ahoy
           params.offset = offset;
-          nextPage(method, params, records).then(response => resolve(response));
+          nextPage(endpoint, params, items).then(response => resolve(response));
         } else {
           // reached the final page of records, so pass them all back
-          resolve(records);
+          resolve(items);
         }
       })
       .catch(function(error) {
+        console.log(error);
         reject(error);
       });
   });

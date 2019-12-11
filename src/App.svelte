@@ -5,7 +5,7 @@
   import Spark from "./data/Spark";
   import SparkView from "./SparkView.svelte";
   import fetchRecord from "./db/fetchRecord";
-  import fetchRecordIndex from "./db/fetchRecordIndex";
+  import fetchIndex from "./db/fetchIndex";
 
   let sparks = [];
   let currentSpark;
@@ -16,17 +16,17 @@
       const rnd = Math.round(Math.random() * (sparks.length - 1));
       const id = sparks[rnd];
 
-      console.log(`loading spark ${id}`);
-
-      const query = new Query({
-        method: `/spark/${id}`,
+      const endpoint = `/spark/${id}`;
+      const params = {
         fields: [
           TABLE.SPARK.FIELDS.TITLE,
           TABLE.SPARK.FIELDS.CONTENT,
           TABLE.SPARK.FIELDS.TAGS,
           TABLE.SPARK.FIELDS.ACTIONS
         ]
-      });
+      };
+
+      const query = new Query(endpoint, params);
 
       try {
         isLoading = true;
@@ -49,7 +49,7 @@
     isLoading = true;
 
     const fStart = performance.now();
-    const { records, message, error } = await fetchRecordIndex();
+    const { records, message, error } = await fetchIndex();
     const fEnd = performance.now();
     isLoading = false;
 
