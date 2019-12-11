@@ -41,34 +41,28 @@
     }
   };
 
-  const getTimeDiff = (startTime, endTime) => {
-    return ((endTime - startTime) / 1000).toFixed(2);
-  };
-
-  onMount(async () => {
+  const loadIndex = async () => {
     isLoading = true;
-
-    const fStart = performance.now();
     const { records, message, error } = await fetchIndex();
-    const fEnd = performance.now();
     isLoading = false;
 
-    console.log(
-      `Time to fetch IDs for ${records.length} Airtable records: ${getTimeDiff(
-        fStart,
-        fEnd
-      )} seconds.`
-    );
-
+    if (error || records.length == 0) {
+      logIndexLoadError(error);
+    }
     if (records.length > 0) {
       sparks = records.map(record => record);
       getRandomSpark();
-    } else {
-      console.log(`No records returned.`);
-      if (error) {
-        console.log(`  > ${message}`);
-      }
     }
+  };
+
+  const logIndexLoadError = (error = null) => {
+    const msg =
+      "Error loading record index." + (error ? `\n > ${error}` : null);
+    console.log(msg);
+  };
+
+  onMount(() => {
+    loadIndex();
   });
 
   const handleBtnClick = e => {
