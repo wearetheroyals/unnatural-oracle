@@ -3,7 +3,7 @@
   import TABLE from "../data/tables";
   import Query from "../data/Query";
   import Spark from "../data/Spark";
-  import fetchRecord from "../db/fetchRecord";
+  import sendQuery from "../db/sendQuery";
   import fetchIndex from "../db/fetchIndex";
 
   import SparkView from "./SparkView.svelte";
@@ -31,7 +31,7 @@
 
       try {
         isLoading = true;
-        const { records, message, error } = await fetchRecord(query);
+        const { records, message, error } = await sendQuery(query);
         currentSpark = records[0];
       } catch (e) {
         console.log(e);
@@ -42,28 +42,44 @@
     }
   };
 
-  const loadIndex = async () => {
-    isLoading = true;
-    const { records, message, error } = await fetchIndex();
-    isLoading = false;
+  const loadIndex = () => {
+    return new Promise(async (resolve, reject) => {
+      isLoading = true;
 
-    if (error || records.length == 0) {
-      logIndexLoadError(error);
-    }
-    if (records.length > 0) {
-      sparks = records.map(record => record);
-      getRandomSpark();
-    }
+      // Build the query
+      const endpoint = `/spark`;
+      const params = {
+        fields: [TABLE.SPARK.FIELDS.ID],
+        filterByFormula: `{${TABLE.SPARK.FIELDS.IS_PUBLISHED}}`
+      };
+
+      const query = new Query(endpoint, params);
+
+      // Hit the serverless endpoint
+      const response = await fetch("/api/queryAirtable", {
+        method: "POST",
+        body: JSON.stringify(query),
+        headers: { "content-type": "application/json" }
+      });
+
+      // request data via the serverless function
+      let { records, message, error } = await response.json();
+      isLoading = false;
+
+      // resolvce with records, or reject with error
+      error ? reject(message) : resolve(records);
+    });
   };
 
-  const logIndexLoadError = (error = null) => {
-    const msg =
-      "Error loading record index." + (error ? `\n > ${error}` : null);
-    console.log(msg);
-  };
-
-  onMount(() => {
-    loadIndex();
+  onMount(async () => {
+    try {
+      const recordsIndex = await loadIndex();
+      console.log(recordsIndex);
+      sparks = recordsIndex;
+      // getRandomSpark();
+    } catch (e) {
+      console.log(`Error loading index.\n > ${e}`);
+    }
   });
 
   const handleBtnClick = e => {

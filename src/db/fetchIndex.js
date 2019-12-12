@@ -1,4 +1,4 @@
-import ENDPOINTS from './endpoints';
+import { AIRTABLE_PROXY } from './endpoints';
 import TABLE from '../data/tables';
 import Query from '../data/Query';
 
@@ -15,13 +15,12 @@ const fetchIndex = () => {
     };
 
     try {
-      const res = await fetch(ENDPOINTS.GET.INDEX, {
+      const res = await fetch(AIRTABLE_PROXY.QUERY, {
         method: 'POST',
         body: JSON.stringify(query),
       });
 
       const result = await res.text();
-      console.log(result);
       resolve(JSON.parse(result));
     } catch (e) {
       reject(e);

@@ -1,11 +1,7 @@
 const base = '/api';
 
-const endpoints = {
-  GET: {
-    RECORD: `${base}/record`,
-    RECORDS: `${base}/records`,
-    INDEX: `${base}/index`,
-  },
+const AIRTABLE_PROXY = {
+  QUERY: `${base}/queryAirtable`,
 };
 
-export default endpoints;
+module.exports.AIRTABLE_PROXY = AIRTABLE_PROXY;

@@ -32,7 +32,6 @@ export default class Query {
   }
 
   get endpoint() {
-    console.log(`Get endpoint : ${this._endpoint}`);
     return this._endpoint;
   }
 

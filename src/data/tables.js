@@ -2,6 +2,7 @@ const TABLE = {
   SPARK: {
     NAME: 'spark',
     FIELDS: {
+      ID: 'id',
       TITLE: 'title',
       CONTENT: 'content',
       TAGS: 'tags',
