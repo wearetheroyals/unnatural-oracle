@@ -3,8 +3,17 @@
   export let data = new Spark();
 </script>
 
-<style>
+<style lang="css">
+  .spark {
+    background-color: #dedede;
 
+    max-width: 580px;
+    min-width: 300px;
+    margin-right: 5px;
+  }
+  h1 {
+    font-size: calc(20px + 6 * ((100vw - 320px) / 680));
+  }
 </style>
 
 <div class="spark">

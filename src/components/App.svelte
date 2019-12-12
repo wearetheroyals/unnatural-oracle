@@ -72,8 +72,14 @@
   };
 </script>
 
-<style>
-  @import "../css/core.css";
+<style lang="scss">
+  :global(body) {
+    --body-background: #fff;
+    --body-font-col: #333344;
+    --body-font-family: "Arial", "sans";
+    --body-line-height: 1.55em;
+    --body-font-size: calc(16px+1vw);
+  }
 </style>
 
 <main>

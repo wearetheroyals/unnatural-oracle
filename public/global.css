@@ -1,3 +1,21 @@
+/*************************************************************
+  BASE STYLES
+  Values are set in the css block of the App.svelte component.
+  CSS in Svelte components are scoped, so it's tricky to change
+  values on the body and html tags from inside the Svelte app.
+  Using CSS props helps workaround this, as Svelte *can* set 
+  new values to the global scope with 
+  :global(html) { --prop-name: value; },
+  :global(body) { --prop-name: value; }
+ *************************************************************/
+body {
+  background: var(--body-background);
+  color: var(--body-font-col);
+  font-family: var(--body-font-family);
+  line-height: var(--body-line-height);
+  font-size: var(--body-font-size);
+}
+
 /* ****************************************
  * ****              RESET             ****
  * ****************************************/
@@ -156,10 +174,10 @@ noscript {
 }
 
 /*******************
- * Screen-reader only class to hide content visually
- * Solution by Joe Watkins.
- * @see https://zellwk.com/blog/hide-content-accessibly/
- *******************/
+* Screen-reader only class to hide content visually
+* Solution by Joe Watkins.
+* @see https://zellwk.com/blog/hide-content-accessibly/
+*******************/
 .sr-only {
   position: absolute;
   width: 1px;
@@ -170,41 +188,4 @@ noscript {
   clip: rect(0 0 0 0);
   overflow: hidden;
   white-space: nowrap;
-}
-
-/* ****************************************
- * ****              GLOBAL             ****
- * ****************************************/
-body {
-  color: #444444;
-  font-size: calc(1.5vw + 1vh + 0.5vmin);
-  font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  line-height: 1.65em;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: normal;
-}
-
-h1 {
-  font-size: 1.5em;
-  line-height: 1.6em;
-}
-
-p {
-  font-size: 1em;
-  line-height: 1.45em;
-}
-
-main {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
