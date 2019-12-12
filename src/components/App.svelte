@@ -72,8 +72,8 @@
   };
 </script>
 
-<style global lang="scss">
-  @import "../scss/global.scss";
+<style>
+  @import "../css/core.css";
 </style>
 
 <main>
