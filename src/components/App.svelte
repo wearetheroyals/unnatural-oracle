@@ -68,6 +68,8 @@
 
       const query = new Query(endpoint, params);
 
+      console.log(JSON.stringify(query));
+
       try {
         // request data via the serverless function
         const response = await fetch("/api/queryAirtable", {

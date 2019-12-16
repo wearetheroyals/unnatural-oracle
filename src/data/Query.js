@@ -5,7 +5,7 @@
 import SortDir from '../util/SortDir';
 import { isNumber, isNonEmptyString, isNonEmptyArray } from '../util/valueTests';
 
-export default class Query {
+export default class AirtableQuery {
   constructor(
     endpoint,
     {
@@ -19,7 +19,7 @@ export default class Query {
     this._endpoint = endpoint;
 
     const params = {};
-    isNonEmptyArray(fields) ? (params.fields = [...fields]) : null;
+    isNonEmptyArray(fields) ? (params['fields[]'] = [...fields]) : null;
     isNonEmptyString(filterByFormula) ? (params.filterByFormula = filterByFormula) : null;
     isNumber(maxRecords) ? (params.maxRecords = maxRecords * 1) : null;
     isNonEmptyString(sortBy) ? (params.sortBy = sortBy) : null;
@@ -35,23 +35,14 @@ export default class Query {
     return this._endpoint;
   }
 
-  get querystring() {
-    return Object.keys(this._params)
-      .map(key => {
-        let param = this._params[key];
-        const encoded = Array.isArray(param)
-          ? param.map(i => encodeURIComponent(i)).join(',')
-          : encodeURIComponent(param);
-        return `${key}=${encoded}`;
-      })
-      .join('&');
-  }
-
   get params() {
     return JSON.parse(JSON.stringify(this._params));
   }
 
   toJSON() {
-    return { endpoint: this.endpoint, params: this.params };
+    return {
+      endpoint: this.endpoint,
+      params: this.params,
+    };
   }
 }
