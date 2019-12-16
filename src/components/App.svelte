@@ -1,10 +1,9 @@
 <script>
   import { onMount } from "svelte";
+  import APIError from "../APIError.js";
   import TABLE from "../data/tables";
   import Query from "../data/Query";
   import Spark from "../data/Spark";
-  import sendQuery from "../db/sendQuery";
-  import fetchIndex from "../db/fetchIndex";
 
   import SparkView from "./SparkView.svelte";
 
@@ -13,32 +12,46 @@
   let isLoading = false;
 
   const getRandomSpark = async () => {
-    if (sparks.length > 0) {
-      const rnd = Math.round(Math.random() * (sparks.length - 1));
-      const id = sparks[rnd];
-
-      const endpoint = `/spark/${id}`;
-      const params = {
-        fields: [
-          TABLE.SPARK.FIELDS.TITLE,
-          TABLE.SPARK.FIELDS.CONTENT,
-          TABLE.SPARK.FIELDS.TAGS,
-          TABLE.SPARK.FIELDS.ACTIONS
-        ]
-      };
-
-      const query = new Query(endpoint, params);
-
-      try {
-        isLoading = true;
-        const { records, message, error } = await sendQuery(query);
-        currentSpark = records[0];
-      } catch (e) {
-        console.log(e);
-      }
-      isLoading = false;
-    } else {
+    if (sparks.length == 0) {
       console.log("Can't display random spark :: No records available");
+      return false;
+    }
+
+    const rnd = Math.round(Math.random() * (sparks.length - 1));
+    const id = sparks[rnd].id;
+
+    const endpoint = `/spark`;
+    const params = {
+      fields: [
+        TABLE.SPARK.FIELDS.TITLE,
+        TABLE.SPARK.FIELDS.CONTENT,
+        TABLE.SPARK.FIELDS.TAGS
+      ],
+      filterByFormula: `{id}=${id}`
+    };
+
+    const query = new Query(endpoint, params);
+
+    try {
+      isLoading = true;
+
+      // Hit the serverless endpoint
+      const response = await fetch("/api/queryAirtable", {
+        method: "POST",
+        body: JSON.stringify(query),
+        headers: { "content-type": "application/json" }
+      });
+
+      // request data via the serverless function
+      let { records, message, error } = await response.json();
+
+      console.log("Record retreived via getRandomSpark:");
+      console.log(records);
+      currentSpark = records[0];
+    } catch (e) {
+      console.error(e);
+    } finally {
+      isLoading = false;
     }
   };
 
@@ -55,30 +68,38 @@
 
       const query = new Query(endpoint, params);
 
-      // Hit the serverless endpoint
-      const response = await fetch("/api/queryAirtable", {
-        method: "POST",
-        body: JSON.stringify(query),
-        headers: { "content-type": "application/json" }
-      });
+      try {
+        // request data via the serverless function
+        const response = await fetch("/api/queryAirtable", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(query)
+        });
 
-      // request data via the serverless function
-      let { records, message, error } = await response.json();
-      isLoading = false;
-
-      // resolvce with records, or reject with error
-      error ? reject(message) : resolve(records);
+        let { records, message, error } = await response.json();
+        if (error) {
+          // Convert error messages in the payload into Error objects
+          throw new APIError(message);
+        }
+        console.log("Finished loading index");
+        resolve(records);
+      } catch (e) {
+        reject(e);
+      } finally {
+        isLoading = false;
+      }
     });
   };
 
   onMount(async () => {
     try {
-      const recordsIndex = await loadIndex();
-      console.log(recordsIndex);
-      sparks = recordsIndex;
-      // getRandomSpark();
+      const records = await loadIndex();
+      console.log("Spark Indexes:");
+      console.log(records);
+      sparks = records;
+      getRandomSpark();
     } catch (e) {
-      console.log(`Error loading index.\n > ${e}`);
+      console.error(e);
     }
   });
 
