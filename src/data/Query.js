@@ -19,7 +19,7 @@ export default class AirtableQuery {
     this._endpoint = endpoint;
 
     const params = {};
-    isNonEmptyArray(fields) ? (params['fields[]'] = [...fields]) : null;
+    isNonEmptyArray(fields) ? (params.fields = [...fields]) : null;
     isNonEmptyString(filterByFormula) ? (params.filterByFormula = filterByFormula) : null;
     isNumber(maxRecords) ? (params.maxRecords = maxRecords * 1) : null;
     isNonEmptyString(sortBy) ? (params.sortBy = sortBy) : null;

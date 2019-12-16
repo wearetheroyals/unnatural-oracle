@@ -1,4 +1,7 @@
+import APIError from '../../src/APIError';
 require('dotenv').config();
+const qs = require('qs');
+
 const ax = require('axios').create({
   baseURL: `https://api.airtable.com/v0/${process.env.DB_ID}`,
   headers: {
@@ -6,32 +9,55 @@ const ax = require('axios').create({
   },
 });
 
-const nextPage = async (endpoint, params = {}, items = []) => {
-  console.log('Sending API request to ' + endpoint);
+// ax.interceptors.request.use(request => {
+//   console.log('Starting Request', request);
+//   return request;
+// });
+
+// ax.interceptors.response.use(response => {
+//   console.log('Starting Response', response);
+//   return response;
+// });
+
+const nextPage = async (endpoint, params = {}, records = []) => {
   return new Promise((resolve, reject) => {
-    ax.get(endpoint, { params })
+    ax.request(endpoint, {
+      params: params,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'brackets' });
+      },
+    })
       .then(function(response) {
         const offset = response.data.offset;
-        const records = response.data.records ? response.data.records : [response.data];
-        items = [...items, ...records];
+        let { data, error, message } = response;
+
+        // records = response.data.records ? response.data.records : [response.data];
+        // strip metadata from each records, and just hold onto field contents
+        if (error) {
+          throw new APIError(message);
+        }
+
+        data.records.map(record =>
+          records.push({ id: record.id, fields: record.fields }),
+        );
+
         if (offset) {
           // more pages to fetch, so recursion ahoy
           params.offset = offset;
-          nextPage(endpoint, params, items).then(response => resolve(response));
+          nextPage(endpoint, params, records).then(response => resolve(response));
         } else {
           // reached the final page of records, so pass them all back
-          resolve(items);
+          resolve(records);
         }
       })
       .catch(function(error) {
-        console.log(error);
-        reject(error);
+        const message = error.response.data.error.message;
+        reject(new APIError(message));
       });
   });
 };
 
 const apiRequest = (method, params = {}) => {
-  // const { table, params } = query;
   return nextPage(method, params);
 };
 
