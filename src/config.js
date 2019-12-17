@@ -1,4 +1,4 @@
-const TABLE = {
+const TABLES = {
   SPARK: {
     NAME: 'spark',
     FIELDS: {
@@ -13,4 +13,10 @@ const TABLE = {
   },
 };
 
-module.exports = TABLE;
+const apiPath = '/api';
+const ENDPOINTS = {
+  QUERY_AIRTABLE: `${apiPath}/queryAirtable`,
+};
+
+module.exports.TABLES = TABLES;
+module.exports.ENDPOINTS = ENDPOINTS;
