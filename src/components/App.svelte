@@ -1,38 +1,39 @@
 <script>
   import { onMount } from "svelte";
-  import { fetchSparkIndex, fetchSpark } from "../IO/get";
+  import ServerlessFuncs from "../data/ServerlessFuncs";
   import { randomRangeInt } from "../util/randomRange.js";
   import SparkView from "./SparkView.svelte";
 
   let sparks = [];
   let currentSpark;
   let isLoading = false;
+  let serverlessFuncs;
 
   onMount(async () => init());
 
   const init = async () => {
+    serverlessFuncs = new ServerlessFuncs({ useMock: true });
+
     try {
       isLoading = true;
-      sparks = await fetchSparkIndex();
+      sparks = await serverlessFuncs.fetchSparkIndex();
       getRandomSpark();
     } catch (e) {
       console.error(e);
     } finally {
-      isLoading = false;
+      //isLoading = false;
     }
   };
 
   const getRandomSpark = async () => {
-    isLoading = true;
-
-    if (sparks.length == 0) {
-      console.log("No records found");
-      return false;
-    }
-
     try {
-      const index = randomRangeInt(0, sparks.length - 1);
-      currentSpark = await fetchSpark(sparks[index].id);
+      const count = sparks.length;
+      if (!count) {
+        throw Error("No records found");
+      }
+      isLoading = true;
+      const index = randomRangeInt(0, count - 1);
+      currentSpark = await serverlessFuncs.fetchSpark(sparks[index].id);
     } catch (e) {
       console.error(e);
     } finally {

@@ -1,4 +1,4 @@
-import APIError from '../../src/APIError';
+import APIError from '../../../src/APIError';
 require('dotenv').config();
 const qs = require('qs');
 
@@ -8,16 +8,6 @@ const ax = require('axios').create({
     Authorization: `Bearer ${process.env.DB_KEY}`,
   },
 });
-
-// ax.interceptors.request.use(request => {
-//   console.log('Starting Request', request);
-//   return request;
-// });
-
-// ax.interceptors.response.use(response => {
-//   console.log('Starting Response', response);
-//   return response;
-// });
 
 const nextPage = async (endpoint, params = {}, records = []) => {
   return new Promise((resolve, reject) => {

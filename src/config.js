@@ -13,10 +13,18 @@ const TABLES = {
   },
 };
 
-const apiPath = '/api';
-const ENDPOINTS = {
-  QUERY_AIRTABLE: `${apiPath}/queryAirtable`,
+const apiProd = '/api/prod';
+const apiMock = '/api/mock';
+
+const FUNCTION_PATHS = {
+  ENV: {
+    PROD: '/api/prod',
+    MOCK: 'api/mock',
+  },
+  ENDPOINTS: {
+    QUERY_AIRTABLE: `/queryAirtable`,
+  },
 };
 
 module.exports.TABLES = TABLES;
-module.exports.ENDPOINTS = ENDPOINTS;
+module.exports.FUNCTION_PATHS = FUNCTION_PATHS;
