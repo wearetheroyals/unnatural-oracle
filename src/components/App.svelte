@@ -4,6 +4,7 @@
   import { randomRangeInt } from "../util/randomRange.js";
   import SparkView from "./SparkView.svelte";
 
+  let useMock = true;
   let sparks = [];
   let currentSpark;
   let isLoading = false;
@@ -12,7 +13,7 @@
   onMount(async () => init());
 
   const init = async () => {
-    serverlessFuncs = new ServerlessFuncs({ useMock: true });
+    serverlessFuncs = new ServerlessFuncs({ useMock });
 
     try {
       isLoading = true;
@@ -54,6 +55,11 @@
     --body-font-family: "Arial", "sans";
     --body-line-height: 1.55em;
     --body-font-size: calc(16px+1vw);
+  }
+
+  .btn {
+    margin-left: 20px;
+    font-size: 2em;
   }
 </style>
 
