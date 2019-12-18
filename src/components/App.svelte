@@ -4,39 +4,38 @@
   import { randomRangeInt } from "../util/randomRange.js";
   import SparkView from "./SparkView.svelte";
 
-  let useMock = false;
-  let sparks = [];
-  let currentSpark;
+  let useMock = true;
   let isLoading = false;
+  let sparkIndex = [];
+  let currentSpark;
   let serverlessFuncs;
 
   onMount(async () => init());
 
   const init = async () => {
     serverlessFuncs = new ServerlessFuncs({ useMock });
-
+    isLoading = true;
     try {
-      isLoading = true;
-      sparks = await serverlessFuncs.fetchSparkIndex();
-      getRandomSpark();
+      sparkIndex = await serverlessFuncs.fetchSparkIndex();
     } catch (e) {
-      console.error(e);
-    } finally {
-      //isLoading = false;
+      handleAPIError(e);
     }
+
+    getRandomSpark();
   };
 
   const getRandomSpark = async () => {
     try {
-      const count = sparks.length;
-      if (!count) {
+      const count = sparkIndex.length;
+
+      if (!Boolean(count)) {
         throw Error("No records found");
       }
       isLoading = true;
       const index = randomRangeInt(0, count - 1);
-      currentSpark = await serverlessFuncs.fetchSpark(sparks[index].id);
+      currentSpark = await serverlessFuncs.fetchSpark(sparkIndex[index].id);
     } catch (e) {
-      console.error(e);
+      handleAPIError(e);
     } finally {
       isLoading = false;
     }
@@ -45,6 +44,11 @@
   const handleBtnClick = e => {
     e.preventDefault();
     getRandomSpark();
+  };
+
+  const handleAPIError = e => {
+    console.error(e);
+    isLoading = false;
   };
 </script>
 

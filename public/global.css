@@ -16,12 +16,10 @@ body {
   font-size: var(--body-font-size);
 }
 
-/* ****************************************
- * ****              RESET             ****
- * ****************************************/
-
-// css reset via zellwk
-// https://raw.githubusercontent.com/zellwk/css-reset/master/reset.css
+/* *****************************************
+ * ****              RESET              ****
+ * **** css reset via zellwk on github  ****
+ * *****************************************/
 
 /*******************
  Box Sizing

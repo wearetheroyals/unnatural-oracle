@@ -6,12 +6,10 @@
 <style lang="css">
   .spark {
     background-color: #dedede;
-
-    max-width: 580px;
     min-width: 300px;
-    margin-right: 5px;
     padding: 0.5em 2em;
   }
+
   h1 {
     font-size: calc(20px + 6 * ((100vw - 320px) / 680));
   }
@@ -24,8 +22,7 @@
     margin: 1.5em 0;
   }
 
-  [data-tags] li,
-  [data-actions] li {
+  footer li {
     display: inline-block;
     font-size: 0.8em;
     border: 1px dashed #999;
@@ -33,26 +30,31 @@
     padding: 0.1em 0.8em 0.1em;
   }
 
-  [data-tags]:last-child,
-  [data-actions]:last-child {
+  footer ul:last-child {
     margin-right: none;
   }
 </style>
 
 <div class="spark">
-  <h1>{data.title}</h1>
-  <h5>Actions</h5>
-  <ul data-actions>
-    {#each data.actions as action}
-      <li>{action}</li>
-    {/each}
+  <header>
+    <h1>{data.title}</h1>
+  </header>
+  <section class="content">
+    <p>{data.content}</p>
+  </section>
+  <footer>
+    <h5>Actions</h5>
+    <ul data-actions>
+      {#each data.actions as action}
+        <li>{action}</li>
+      {/each}
 
-  </ul>
-  <p>{data.content}</p>
-  <h5>Tags</h5>
-  <ul data-tags>
-    {#each data.tags as tag}
-      <li>{tag}</li>
-    {/each}
-  </ul>
+    </ul>
+    <h5>Tags</h5>
+    <ul data-tags>
+      {#each data.tags as tag}
+        <li>{tag}</li>
+      {/each}
+    </ul>
+  </footer>
 </div>
