@@ -3,7 +3,7 @@ module.exports = [
     id: 'rec3WZ5mJZNmrmiwi',
     fields: {
       id: 'rec3WZ5mJZNmrmiwi',
-      title: 'Title One',
+      title: 'Something Of Interest',
       content: 'Nice bit of content in here',
       tags: ['test', 'tag'],
       actions: ['think', 'eat'],

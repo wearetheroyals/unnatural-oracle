@@ -10,7 +10,7 @@
   let currentSpark;
   let serverlessFuncs;
 
-  onMount(async () => init());
+  onMount(() => init());
 
   const init = async () => {
     serverlessFuncs = new ServerlessFuncs({ useMock });
@@ -52,19 +52,8 @@
   };
 </script>
 
-<style lang="scss">
-  :global(body) {
-    --body-background: #fff;
-    --body-font-col: #333344;
-    --body-font-family: "Arial", "sans";
-    --body-line-height: 1.55em;
-    --body-font-size: calc(16px+1vw);
-  }
+<style src="app.scss">
 
-  .btn {
-    margin-left: 20px;
-    font-size: 2em;
-  }
 </style>
 
 <main>

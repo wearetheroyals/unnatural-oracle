@@ -1,47 +1,37 @@
 <script>
+  import { onMount } from "svelte";
+  // import fitty from "fitty";
+  // import textFit from "textFit";
+  import fitText from "FitText-UMD";
   import Spark from "../data/Spark";
   export let data = new Spark();
+
+  onMount(() => init());
+
+  let title;
+
+  const init = () => {
+    fitText(title, 0.7);
+  };
 </script>
 
-<style lang="css">
-  .spark {
-    background-color: #dedede;
-    min-width: 300px;
-    padding: 0.5em 2em;
-  }
+<style src="card.scss">
 
-  h1 {
-    font-size: calc(20px + 6 * ((100vw - 320px) / 680));
-  }
-
-  h5 {
-    margin-top: 1em;
-  }
-
-  p {
-    margin: 1.5em 0;
-  }
-
-  footer li {
-    display: inline-block;
-    font-size: 0.8em;
-    border: 1px dashed #999;
-    margin-right: 10px;
-    padding: 0.1em 0.8em 0.1em;
-  }
-
-  footer ul:last-child {
-    margin-right: none;
-  }
 </style>
 
-<div class="spark">
+<div class="card">
+
   <header>
-    <h1>{data.title}</h1>
+    <h1 id="fit" bind:this={title}>{data.title}</h1>
+    <!-- <h1 id="fit" bind:this={title}>
+      A fairly long one that might need to wrap
+    </h1> -->
   </header>
+
   <section class="content">
     <p>{data.content}</p>
   </section>
+
   <footer>
     <h5>Actions</h5>
     <ul data-actions>
@@ -57,4 +47,5 @@
       {/each}
     </ul>
   </footer>
+
 </div>
