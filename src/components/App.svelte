@@ -4,7 +4,7 @@
   import { randomRangeInt } from "../util/randomRange.js";
   import SparkView from "./SparkView.svelte";
 
-  let useMock = false;
+  let useMock = true;
   let isLoading = false;
   let sparkIndex = [];
   let currentSpark;
