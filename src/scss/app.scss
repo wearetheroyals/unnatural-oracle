@@ -1,9 +1,9 @@
-@import "shared/mixins";
+@import './src/scss/shared/mixins';
 
 :global(body) {
   --body-background: #fff;
   --body-font-col: #333344;
-  --body-font-family: "Arial", "sans";
+  --body-font-family: 'Arial', 'sans';
   --body-line-height: 1.55em;
   --body-font-size: calc(16px+1vw);
 

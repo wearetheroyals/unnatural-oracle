@@ -66,7 +66,7 @@ export const slab = cssSelector => {
   }
   const fitted = fitty(`${cssSelector} span`);
   fitted.map(fit => {
-    fit.element.style.lineHeight = 'calc(.15em * 4.55)';
+    fit.element.style.lineHeight = 'calc(.25em * 4.55)';
     fit.element.style.marginBottom = '-.14em';
   });
 };

@@ -1,20 +1,18 @@
 <style src="../scss/card.scss"></style>
+
 <script>
+  import {slab} from '../lib/slabber.js';
   import { afterUpdate } from "svelte";
-  import {slab} from './slabber.js';
   import Spark from "../data/Spark";
 
   export let data = new Spark();
   
   const containers = {};
-  let contentLines = [];
 
   afterUpdate(() => {
     slab('.fittext');
   });
 </script>
-
-
 
 <div class="card">
 
@@ -23,7 +21,7 @@
   </header>
 
   <section bind:this={containers.content} class="content">
-    <p class="fittext">{data.content}</p>
+    <p class="">{data.content}</p>
   </section>
 
   <section class="meta">
@@ -32,7 +30,6 @@
         <li>{tag}</li>
       {/each}
     </ul>
-
   </section>
 
 </div>
