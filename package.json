@@ -24,7 +24,8 @@
     "postcss": "^7.0.25",
     "qs": "^6.9.1",
     "sirv-cli": "^0.4.4",
-    "textfit": "^2.4.0"
+    "textfit": "^2.4.0",
+    "zdog": "^1.1.1"
   },
   "scripts": {
     "build": "rollup -c",
