@@ -1,10 +1,11 @@
+<style src="../scss/app.scss"></style>
 <script>
   import { onMount } from "svelte";
   import ServerlessFuncs from "../data/ServerlessFuncs";
   import { randomRangeInt } from "../util/randomRange.js";
   import SparkView from "./SparkView.svelte";
 
-  let useMock = true;
+  let useMock = false;
   let isLoading = false;
   let sparkIndex = [];
   let currentSpark;
@@ -51,10 +52,6 @@
     isLoading = false;
   };
 </script>
-
-<style src="app.scss">
-
-</style>
 
 <main>
   {#if isLoading}
