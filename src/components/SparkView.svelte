@@ -1,4 +1,6 @@
 <script>
+  import {slab} from './slabber.js';
+
   import { onMount } from "svelte";
   import { afterUpdate } from "svelte";
 
@@ -11,8 +13,9 @@
 
   // onMount(() => init());
   afterUpdate(() => {
-    fitText(containers.title.childNodes[0], 0.8);
-    fitText(containers.content.childNodes[0], 0.7);
+    slab('.fittext');
+    // fitText(containers.title.childNodes[0], 0.8);
+    // fitText(containers.content.childNodes[0], 0.7);
   });
 </script>
 
