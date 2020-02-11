@@ -14,6 +14,10 @@ body {
   font-family: var(--body-font-family);
   line-height: var(--body-line-height);
   font-size: var(--body-font-size);
+
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
 }
 
 /* *****************************************
@@ -32,16 +36,6 @@ html {
 *::before,
 *::after {
   box-sizing: inherit;
-}
-
-/*******************
- Core body defaults
- @see https://hankchizljaw.com/wrote/a-modern-css-reset/
- *******************/
-body {
-  min-height: 100vh;
-  text-rendering: optimizeSpeed;
-  line-height: 1.5;
 }
 
 /****************************
@@ -89,7 +83,7 @@ button {
 }
 
 /* I usually expand input and textarea to full-width */
-input[type="text"],
+input[type='text'],
 textarea {
   width: 100%;
 }
@@ -154,7 +148,7 @@ noscript {
 /*******************
  Tabindex
  *******************/
-[tabindex="-1"] {
+[tabindex='-1'] {
   outline: none !important;
 }
 
