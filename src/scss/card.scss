@@ -1,5 +1,5 @@
-@import "shared/_mixins";
-@import "shared/_palette";
+@import './src/scss/shared/_mixins';
+@import './src/scss/shared/_palette';
 
 .card {
   --padding: 2vw 3vw;
@@ -9,21 +9,21 @@
   // Grid
   display: grid;
   grid-template-areas:
-    "title content"
-    "meta meta";
+    'title content'
+    'meta meta';
   grid-template-columns: 1fr 1fr;
 
   @include sm {
     grid-template-areas:
-      "title"
-      "content"
-      "meta";
+      'title'
+      'content'
+      'meta';
     grid-template-columns: 1fr;
   }
 
   // colors
   color: rgba(255, 255, 255, 0.85);
-  background-color: col("primary");
+  background-color: col('primary');
 }
 
 header {
@@ -35,6 +35,7 @@ header {
   grid-area: content;
   padding: var(--padding);
   background-color: rgba(0, 0, 0, 0.1);
+  font-size: 2em;
 
   &:first-child {
     margin-top: 0;

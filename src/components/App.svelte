@@ -1,3 +1,4 @@
+<style src="../scss/app.scss"></style>
 <script>
   import { onMount } from "svelte";
   import ServerlessFuncs from "../data/ServerlessFuncs";
@@ -52,9 +53,6 @@
   };
 </script>
 
-<style src="app.scss">
-
-</style>
 
 <main>
   {#if isLoading}
