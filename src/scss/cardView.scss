@@ -1,12 +1,12 @@
 @import './src/scss/shared/_mixins';
 @import './src/scss/shared/_palette';
 
-.card {
+.spark {
   --padding: 2vw 3vw;
 
   // max-width: 800px;
   width: 100%;
-  height: 100%;
+  height: 100vh;
 
   // Grid
   display: grid;
@@ -14,13 +14,15 @@
     'title content'
     'meta meta';
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr auto;
 
-  @include sm {
+  @include md {
     grid-template-areas:
       'title'
       'content'
       'meta';
     grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr auto;
   }
 
   // colors

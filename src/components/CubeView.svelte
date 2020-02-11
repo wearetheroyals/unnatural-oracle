@@ -13,7 +13,7 @@
   });
 </script>
 
-<div class="card">
+<div class="spark">
 
   <header bind:this={containers.title}>
     <h1 class="fittext">{data.title}</h1>

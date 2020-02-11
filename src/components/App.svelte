@@ -3,7 +3,8 @@
   import { onMount } from "svelte";
   import ServerlessFuncs from "../data/ServerlessFuncs";
   import { randomRangeInt } from "../util/randomRange.js";
-  import SparkView from "./SparkView.svelte";
+  
+  import View from "./CardView.svelte";
 
   let useMock = false;
   let isLoading = false;
@@ -57,7 +58,7 @@
   {#if isLoading}
     <p>...loading...</p>
   {:else if currentSpark != null}
-    <SparkView data={currentSpark.fields || null} />
-    <a class="btn" on:click={handleBtnClick} href="/">☞</a>
+    <View data={currentSpark.fields || null} />
+    <!-- <a class="btn" on:click={handleBtnClick} href="/">☞</a> -->
   {/if}
 </main>

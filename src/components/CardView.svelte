@@ -1,4 +1,4 @@
-<style src="../scss/card.scss"></style>
+<style src="../scss/cardView.scss"></style>
 
 <script>
   import {slab} from '../lib/slabber.js';
@@ -9,12 +9,9 @@
   
   const containers = {};
 
-  afterUpdate(() => {
-    slab('.fittext');
-  });
 </script>
 
-<div class="card">
+<div class="spark">
 
   <header bind:this={containers.title}>
     <h1 class="fittext">{data.title}</h1>
