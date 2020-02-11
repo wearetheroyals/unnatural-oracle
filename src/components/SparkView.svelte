@@ -6,6 +6,7 @@
   import Spark from "../data/Spark";
 
   export let data = new Spark();
+  const slabber = require('./slabber');
   const containers = {};
   let contentLines = [];
 
