@@ -4,7 +4,7 @@
   import ServerlessFuncs from "../data/ServerlessFuncs";
   import { randomRangeInt } from "../util/randomRange.js";
   
-  import View from "./CubeView.svelte";
+  import View from "./CubeView/CubeView.svelte";
 
   let useMock = false;
   let isLoading = false;
