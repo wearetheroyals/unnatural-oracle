@@ -1,10 +1,11 @@
 <style src="../scss/app.scss"></style>
 <script>
+  
   import { onMount } from "svelte";
   import ServerlessFuncs from "../data/ServerlessFuncs";
   import { randomRangeInt } from "../util/randomRange.js";
   
-  import View from "./CubeView/CubeView.svelte";
+  import View from "./OracleView.svelte";
 
   let useMock = false;
   let isLoading = false;
@@ -19,6 +20,9 @@
     isLoading = true;
     try {
       sparkIndex = await serverlessFuncs.fetchSparkIndex();
+      console.log('-------')
+      console.log(sparkIndex)
+      console.log('-------')
     } catch (e) {
       handleAPIError(e);
     }
