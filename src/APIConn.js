@@ -1,86 +1,65 @@
+import { get } from 'Svelte/store';
+import {
+  isLoading,
+  useMockData,
+  contentItemIndex,
+  hasContentItemIndex
+} from './store.js';
 import ServerlessFuncs from './data/ServerlessFuncs';
 import { randomRangeInt } from './util/randomRange.js';
 
 const ERRORS = {
-  NO_CONCURRENT: 'API Call already in progress. Concurrent calls not supported.',
-  NO_CONTENT_INDEX:`Content index not found.`,
+  NO_CONCURRENT:
+    'API Call already in progress. Concurrent calls not supported.',
+  NO_CONTENT_INDEX: `Content index is empty. This is probably because you haven't called fetchContentIndex() on an instance of APIConn.`
 };
 
-const EVENTS = {
-  LOAD_START: 'loadstart',
-  LOAD_COMPLETE: 'loadcomplete',
-}
-
-/**
-* ToDo: Gracefully cancel or queue concurrent calls.
-* Currently assumes only one API call can be made at a time.
-* If a new call is made while another call is in progress, it will be ignored.
-*
-* ToDo: Merge ServerlessFuncs class into this one
-*  (or give better rationale as to why they're semi-decoupled)
-*/
+const serverlessFuncs = new ServerlessFuncs();
 
 export default class APIConn {
-  constructor({ useMock = false } = {}) {
-    this._contentIndex = [];
-    this._loading = false;
-    this._serverlessFuncs = new ServerlessFuncs(useMock);
-    this._contentIndex = await this.fetchContentIndex();
-  }
-  
   fetchContentIndex() {
+    serverlessFuncs.useMock = get(useMockData);
     return new Promise(async (resolve, reject) => {
-      if (this.isLoading) reject(ERRORS.NO_CONCURRENT);
-      
-      this._setIsLoading(true);
+      if (get(isLoading)) reject(ERRORS.NO_CONCURRENT);
+      isLoading.set(true);
       try {
-        return await serverlessFuncs.fetchSparkIndex();
+        contentItemIndex.set(await serverlessFuncs.fetchSparkIndex());
+        resolve(true);
       } catch (e) {
-        reject(e)
+        reject(e);
       } finally {
-        this._setIsLoading(false);
+        isLoading.set(false);
       }
     });
   }
-  
+
   /**
    * Fetches a content item via API. Can fetch a specific item using the
    * contentId argument or, if no contentId argument is supplied, a random item will be fetched.
-   * @param {str} contentId 
+   * @param {str} contentId
    */
-  fetchItem (contentId=null) {
+  fetchItem(contentId = null) {
+    serverlessFuncs.useMock = get(useMockData);
     return new Promise(async (resolve, reject) => {
-      if (!this.isReady) reject(ERRORS.DISALLOW_CONCURRENT);
+      if (get(isLoading)) reject(ERRORS.NO_CONCURRENT);
+      if (!get(hasContentItemIndex)) reject(ERRORS.NO_CONTENT_INDEX);
+
       try {
-        contentId = contentId ? contentId : this.getRandomContentId();
-        this._setIsLoading(true);
-        const item = await serverlessFuncs.fetchSpark(contentId);
-        return item;
+        contentId = contentId ? contentId : this._getRandomId();
+        isLoading.set(true);
+        resolve(await serverlessFuncs.fetchSpark(contentId));
       } catch (e) {
-        
+        reject(e);
       } finally {
-        this._setIsLoading(false);
+        isLoading.set(false);
       }
     });
-  };
-  
-  getRandomContentId () { 
-    if (!this.hasContentIndex) throw Error(ERRORS.NO_CONTENT_INDEX);
-    var int = randomRangeInt(0, this._contentIndex.length-1)
-    return this._contentIndex[int].id;
   }
 
-
-  get isLoading () {return this._loading};
-  get hasContentIndex () {return this._contentIndex.length > 0}
-  get isReady () {return this.hasContentIndex && !this.isLoading ;}
-  
-  _setIsLoading (bool) { 
-    if (this._loading != bool) {
-      this._loading = bool;
-      var eventType = bool ? EVENTS.LOAD_START : EVENTS.LOAD_COMPLETE;
-      this.dispatchEvent(new Event(eventType));
-    }
+  _getRandomId() {
+    if (!get(hasContentItemIndex)) throw new Error(ERRORS.NO_CONTENT_INDEX);
+    const items = get(contentItemIndex);
+    var int = randomRangeInt(0, items.length - 1);
+    return items[int].id;
   }
-  
 }

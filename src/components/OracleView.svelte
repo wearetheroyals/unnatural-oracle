@@ -7,15 +7,15 @@
 <div class="spark">
 
   
-    <h1 class="fittext">{data.title}</h1>
+    <h1>{data.title}</h1>
   
 
-  <section class="content">
+  <section>
     <p>{data.content}</p>
   </section>
 
   
-    <ul data-tags class="labels">
+    <ul>
       {#each data.tags as tag}
         <li>{tag}</li>
       {/each}

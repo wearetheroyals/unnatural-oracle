@@ -2,67 +2,53 @@
 <script>
   
   import { onMount } from "svelte";
-  import ServerlessFuncs from "../data/ServerlessFuncs";
+  import APIConn, {EVENTS} from '../APIConn.js';
   import { randomRangeInt } from "../util/randomRange.js";
-  
+  import { isLoading, useMockData } from '../store.js';  
   import View from "./OracleView.svelte";
 
-  let useMock = false;
-  let isLoading = false;
-  let sparkIndex = [];
   let currentSpark;
-  let serverlessFuncs;
+  let apiConn;
+  
+  useMockData.set(false);
+  
 
   onMount(() => init());
 
   const init = async () => {
-    serverlessFuncs = new ServerlessFuncs({ useMock });
-    isLoading = true;
+    apiConn = new APIConn();
     try {
-      sparkIndex = await serverlessFuncs.fetchSparkIndex();
-      console.log('-------')
-      console.log(sparkIndex)
-      console.log('-------')
+      await apiConn.fetchContentIndex();
+      fetchRandomItem();
     } catch (e) {
-      handleAPIError(e);
-    }
-
-    getRandomSpark();
-  };
-
-  const getRandomSpark = async () => {
-    try {
-      const count = sparkIndex.length;
-
-      if (!Boolean(count)) {
-        throw Error("No records found");
-      }
-      isLoading = true;
-      const index = randomRangeInt(0, count - 1);
-      currentSpark = await serverlessFuncs.fetchSpark(sparkIndex[index].id);
-    } catch (e) {
-      handleAPIError(e);
-    } finally {
-      isLoading = false;
+      handleApiError(e)
     }
   };
+
+  const fetchRandomItem = async () => {
+    try {
+      currentSpark = await apiConn.fetchItem();
+    } catch (e) {
+      handleApiError(e)
+    }
+  }
 
   const handleBtnClick = e => {
     e.preventDefault();
-    getRandomSpark();
+    fetchRandomItem();
   };
 
-  const handleAPIError = e => {
+  const handleApiError = (e) => {
     console.error(e);
-    isLoading = false;
-  };
+  }
+
 </script>
 
 <main>
-  {#if isLoading}
+  {#if $isLoading}
     <p>...loading...</p>
   {:else if currentSpark != null}
     <View data={currentSpark.fields || null} />
-    <!-- <a class="btn" on:click={handleBtnClick} href="/">☞</a> -->
+    <a class="btn" on:click={handleBtnClick} href="/">☞</a>
   {/if}
 </main>
