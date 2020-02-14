@@ -5,7 +5,10 @@
   import APIConn, {EVENTS} from '../APIConn.js';
   import { randomRangeInt } from "../util/randomRange.js";
   import { isLoading, useMockData } from '../store.js';  
-  import View from "./OracleView.svelte";
+  
+  // import View from "./OracleView.svelte";
+  import Eyeball from "./Eyeball.svelte";
+  // import View from "./OracleView.svelte";
 
   let currentSpark;
   let apiConn;
@@ -23,6 +26,7 @@
       handleApiError(e)
     }
   };
+
 
   const fetchRandomItem = async () => {
     try {
@@ -47,6 +51,18 @@
   {#if $isLoading}
     <p>...loading...</p>
   {:else if currentSpark != null}
-    <View data={currentSpark.fields || null} />
+    <div class="ratio">
+    <div id='spark'>
+      <section class="oracle">
+        <Eyeball />
+      </section>
+      <section class="content">
+        <p>{currentSpark.fields.content}</p>
+      </section>
+      <section class="brand">
+        Royals
+      </section>
+    </div>
+    </div>
   {/if}
 </main>
