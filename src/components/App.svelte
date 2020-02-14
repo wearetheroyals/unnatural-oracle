@@ -10,8 +10,7 @@
   let currentSpark;
   let apiConn;
   
-  useMockData.set(false);
-  
+  useMockData.set(true);
 
   onMount(() => init());
 
@@ -49,6 +48,5 @@
     <p>...loading...</p>
   {:else if currentSpark != null}
     <View data={currentSpark.fields || null} />
-    <a class="btn" on:click={handleBtnClick} href="/">☞</a>
   {/if}
 </main>

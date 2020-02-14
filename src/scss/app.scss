@@ -1,19 +1,24 @@
+@import './src/scss/global/reset';
+@import './src/scss/global/palette';
+@import './src/scss/global/typography';
 @import './src/scss/shared/mixins';
 
 :global(body) {
-  --body-background: #fff;
-  --body-font-col: #333344;
-  --body-font-family: 'Arial', 'sans';
-  --body-line-height: 1.55em;
-  --body-font-size: calc(16px+1vw);
+  font-family: var(--font-family);
+  line-height: var(--line-height);
+  font-size: var(--font-size);
+  text-rendering: var(--text-rendering);
 
-  width: 100%;
+  color: var(--col-text-body);
+  background: var(--col-body-bg);
+
   min-height: 100vh;
 
-  $col: #ff9900;
-}
+  main {
+    height: 100vh;
+  }
 
-.btn {
-  margin-left: 20px;
-  font-size: 2em;
+  .spark {
+    height: 100vh;
+  }
 }
