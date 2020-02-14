@@ -22,7 +22,7 @@ main {
 
 .ratio {
   height: 0;
-  padding-top: 125%;
+  padding-top: 135%;
   position: relative;
   overflow: hidden;
 }
@@ -36,14 +36,45 @@ main {
   left: 0;
 
   display: grid;
-  grid-template-areas: 'oracle' 'content' 'brand';
+  grid-template-areas:
+    '. oracle .'
+    '. content .'
+    '. brand .';
   grid-template-rows: auto 1fr auto;
+  grid-template-columns: 5fr 90fr 5fr;
 
-  --col-text: #660000;
-  --col-bg: #efefef;
+  --col-base: #999;
+  --col-lighter: #dedede;
+  --col-darker: #333;
+
+  --col-text: var(--col-darker);
+  --col-bg: var(--col-lighter);
+
+  background-color: var(--col-bg);
+  color: var(--col-text);
 
   > section {
+    grid-column-start: 2;
     color: var(--col-text);
+
     background-color: var(--col-bg);
+    color: var(--col-text);
+  }
+
+  .oracle {
+    padding: 1em 25%;
+  }
+
+  .content {
+    padding: 2em 1.5em;
+    --col-bg: var(--col-darker);
+    --col-text: var(--col-lighter);
+  }
+
+  .brand {
+    padding: 2em 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 0.8em;
   }
 }
