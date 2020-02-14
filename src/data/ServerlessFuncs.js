@@ -6,16 +6,16 @@ let basePath = FUNCTION_PATHS.ENV.PROD;
 
 const callServerlessFunction = (
   query,
-  endpoint = FUNCTION_PATHS.ENDPOINTS.QUERY_AIRTABLE,
+  endpoint = FUNCTION_PATHS.ENDPOINTS.QUERY_AIRTABLE
 ) => {
   const path = basePath + endpoint;
-  console.log(path);
+
   return new Promise(async (resolve, reject) => {
     try {
       const response = await fetch(path, {
         method: 'POST',
         body: JSON.stringify(query),
-        headers: { 'content-type': 'application/json' },
+        headers: { 'content-type': 'application/json' }
       });
 
       let { records, message, error } = await response.json();
@@ -50,7 +50,7 @@ export default class ServerlessFuncs {
       const endpoint = `/spark`;
       const params = {
         fields: [TABLES.SPARK.FIELDS.IS_PUBLISHED],
-        filterByFormula: `{${TABLES.SPARK.FIELDS.IS_PUBLISHED}}`,
+        filterByFormula: `{${TABLES.SPARK.FIELDS.IS_PUBLISHED}}`
       };
       const query = new Query(endpoint, params);
 
@@ -71,9 +71,9 @@ export default class ServerlessFuncs {
           TABLES.SPARK.FIELDS.TITLE,
           TABLES.SPARK.FIELDS.CONTENT,
           TABLES.SPARK.FIELDS.TAGS,
-          TABLES.SPARK.FIELDS.ACTIONS,
+          TABLES.SPARK.FIELDS.ACTIONS
         ],
-        filterByFormula: `SEARCH('${recordId}',{rec_id})`,
+        filterByFormula: `SEARCH('${recordId}',{rec_id})`
       };
       const query = new Query(endpoint, params);
       try {

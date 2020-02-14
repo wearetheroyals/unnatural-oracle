@@ -26,7 +26,6 @@ const measureString = el => {
     elHeight: el.offsetHeight,
     constLineRatio: CONSTANTS.getLineRatio()
   };
-  console.log(info);
 
   return { text, words, charsPerLine };
 };
@@ -37,9 +36,6 @@ const wrapLineTextInHTML = (text, tagName = 'span') => {
 
 const formatSlab = el => {
   const { words, charsPerLine } = measureString(el);
-  console.log(`${words.length} words total`);
-  console.log(`${charsPerLine} chars per line.`);
-  console.log(CONSTANTS);
 
   // iterative split lines
   const lines = words.reduce((acc, word) => {

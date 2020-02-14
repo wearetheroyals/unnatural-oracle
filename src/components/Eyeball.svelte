@@ -43,7 +43,6 @@ div {
 
     onMount(() => init());
     const init = () => {
-        console.log(eyeElement.style);
         eyeElement.style.setProperty('fill', 0x336699);
         pupilElement.style.setProperty('--fill-color', 0x003366);
     }
