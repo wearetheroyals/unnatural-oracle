@@ -2,7 +2,7 @@
 <script>
   
   import { onMount } from "svelte";
-  import APIConn, {EVENTS} from '../APIConn.js';
+  import APIConn from '../APIConn.js';
   import { randomRangeInt } from "../util/randomRange.js";
   import { isLoading, useMockData } from '../store.js';  
   
@@ -21,13 +21,15 @@
   onMount(() => init());
 
   const init = async () => {
-    apiConn = new APIConn();
-    try {
-      await apiConn.fetchContentIndex();
-      fetchRandomItem();
-    } catch (e) {
-      handleApiError(e)
-    }
+    // apiConn = new APIConn();
+    // try {
+    //   await apiConn.fetchContentIndex();
+    //   fetchRandomItem();
+    // } catch (e) {
+    //   handleApiError(e)
+    // }
+
+    console.log("hello")
   };
 
 
