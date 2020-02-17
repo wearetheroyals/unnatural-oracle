@@ -15,6 +15,8 @@ NOTE: The React dev server will launch your browser to localhost:[some-port], bu
 Hosted on the Advance Party account of Zeit's now.sh service.
 The now.sh project is connected to Advance Party's GitHub account for continuous deployment.
 
+A list of all deployments can be see at https://github.com/AdvanceParty/provocations/deployments
+
 ## 1. Production
 
 The app will be redeployed whenever you push to the master brach of the Github repo.
