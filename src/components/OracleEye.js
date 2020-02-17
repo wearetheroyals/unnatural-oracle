@@ -83,5 +83,4 @@ class OracleEye extends React.Component {
     );
   }
 }
-
 export default OracleEye;
