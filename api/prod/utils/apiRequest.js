@@ -1,12 +1,12 @@
-import APIError from '../../../src/APIError';
+import { APIError } from '../../../src/ApiConn/';
 require('dotenv').config();
 const qs = require('qs');
 
 const ax = require('axios').create({
   baseURL: `https://api.airtable.com/v0/${process.env.DB_ID}`,
   headers: {
-    Authorization: `Bearer ${process.env.DB_KEY}`,
-  },
+    Authorization: `Bearer ${process.env.DB_KEY}`
+  }
 });
 
 const nextPage = async (endpoint, params = {}, records = []) => {
@@ -15,7 +15,7 @@ const nextPage = async (endpoint, params = {}, records = []) => {
       params: params,
       paramsSerializer: params => {
         return qs.stringify(params, { arrayFormat: 'brackets' });
-      },
+      }
     })
       .then(function(response) {
         const offset = response.data.offset;
@@ -28,13 +28,15 @@ const nextPage = async (endpoint, params = {}, records = []) => {
         }
 
         data.records.map(record =>
-          records.push({ id: record.id, fields: record.fields }),
+          records.push({ id: record.id, fields: record.fields })
         );
 
         if (offset) {
           // more pages to fetch, so recursion ahoy
           params.offset = offset;
-          nextPage(endpoint, params, records).then(response => resolve(response));
+          nextPage(endpoint, params, records).then(response =>
+            resolve(response)
+          );
         } else {
           // reached the final page of records, so pass them all back
           resolve(records);

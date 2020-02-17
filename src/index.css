@@ -1,0 +1,197 @@
+html {
+  --font-family: 'DM Sans', sans-serif;
+  --font-size: min(calc(4px + 4.4vw), 24px);
+  --line-height: 1.55em;
+  --text-rendering: optimizeSpeed;
+
+  font-family: var(--font-family);
+  line-height: var(--line-height);
+  font-size: var(--font-size);
+  text-rendering: var(--text-rendering);
+
+  color: var(--col-text-body);
+  background: var(--col-body-bg);
+
+  min-height: 100vh;
+
+  --col-body-bg: #fff;
+  --col-text-body: #333344;
+  --col-text-heading: #333344;
+  --col-text-subheading: #333344;
+
+  --palette-blue-base: #217afa;
+  --palette-blue-darker: #002070;
+  --palette-blue-lighter: #d0f0ff;
+  --palette-green-base: #20a050;
+  --palette-green-darker: #107030;
+  --palette-green-lighter: #c0e0c0;
+  --palette-yellow-base: #ffe040;
+  --palette-yellow-darker: #ffc000;
+  --palette-yellow-lighter: #fff0c0;
+  --palette-red-base: #ff4020;
+  --palette-red-darker: #d02030;
+  --palette-red-lighter: #ffd0de;
+}
+
+/* *****************************************
+ * ****              RESET              ****
+ * **** css reset via zellwk on github  ****
+ * *****************************************/
+
+/*******************
+ Box Sizing
+ *******************/
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/****************************
+   Generic Margins and Paddings
+   ****************************/
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+ol,
+li,
+p,
+pre,
+blockquote,
+figure,
+figcaption,
+hr,
+dl,
+dd {
+  margin: 0;
+  padding: 0;
+}
+
+/*******************
+   Lists
+   *******************/
+ul {
+  list-style: none;
+}
+
+/*******************
+   Forms and buttons
+   *******************/
+input,
+textarea,
+select,
+button {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+/* I usually expand input and textarea to full-width */
+input[type='text'],
+textarea {
+  width: 100%;
+}
+
+/* More friendly border */
+input,
+textarea,
+button {
+  border: 1px solid gray;
+}
+
+/* Some defaults for one-liner buttons */
+button {
+  padding: 0.75em 1em;
+  line-height: inherit;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+button * {
+  pointer-events: none;
+}
+
+/***********************************
+   Easy responsive for media elements
+   ***********************************/
+img,
+svg,
+iframe,
+video,
+object,
+embed {
+  display: block;
+  max-width: 100%;
+}
+
+/*******************
+   Useful table styles
+   *******************/
+table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+/*******************
+   The hidden attribute
+   *******************/
+[hidden] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/*******************
+   Noscript
+   *******************/
+noscript {
+  display: block;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+/*******************
+   Tabindex
+   *******************/
+[tabindex='-1'] {
+  outline: none !important;
+}
+
+/*******************
+   Remove animations and transitions
+   @see https://hankchizljaw.com/wrote/a-modern-css-reset/
+   *******************/
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/*******************
+  * Screen-reader only class to hide content visually
+  * Solution by Joe Watkins.
+  * @see https://zellwk.com/blog/hide-content-accessibly/
+  *******************/
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+  white-space: nowrap;
+}

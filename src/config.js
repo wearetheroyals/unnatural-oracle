@@ -1,29 +1,28 @@
 const TABLES = {
   SPARK: {
     NAME: 'spark',
+    ENDPOINT: 'spark',
     FIELDS: {
-      ID: 'id',
+      ID: 'rec_id',
       TITLE: 'title',
       CONTENT: 'content',
       TAGS: 'tags',
       ACTIONS: 'actions',
       IS_PUBLISHED: 'published',
-      CONTRIBUTOR: 'contributor',
+      CONTRIBUTOR: 'contributor'
     },
-  },
+    INDEX_FIELD: 'rec_id'
+  }
 };
-
-const apiProd = '/api/prod';
-const apiMock = '/api/mock';
 
 const FUNCTION_PATHS = {
   ENV: {
     PROD: '/api/prod',
-    MOCK: 'api/mock',
+    MOCK: 'api/mock'
   },
   ENDPOINTS: {
-    QUERY_AIRTABLE: `/queryAirtable`,
-  },
+    QUERY_AIRTABLE: `/queryAirtable`
+  }
 };
 
 module.exports.TABLES = TABLES;

@@ -17,10 +17,10 @@ export default class SortDir {
   }
 
   static get ASCENDING() {
-    return SortDir._mode.ASCENDING;
+    return SortDir.Mode.ASCENDING;
   }
   static get DESCENDING() {
-    return SortDir._mode.DESCENDING;
+    return SortDir.Mode.DESCENDING;
   }
 
   constructor() {
@@ -49,5 +49,5 @@ const _modes = [
   new Mode('asc', 'desc'),
   new Mode('ascending', 'descending'),
   new Mode(1, 0),
-  new Mode(1, -1),
+  new Mode(1, -1)
 ];
