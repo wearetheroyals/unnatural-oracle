@@ -30,34 +30,36 @@ main {
     '. oracle .'
     '. content .'
     '. brand .';
-  grid-template-rows: 2fr 3fr auto;
+  grid-template-rows: auto 3fr auto;
   grid-template-columns: 5fr 90fr 5fr;
 
   --col-base: var(--palette-green-base);
   --col-lighter: var(--palette-green-lighter);
   --col-darker: var(--palette-green-darker);
 
-  --col-text: var(--col-darker);
   --col-bg: var(--col-lighter);
-
-  background-color: var(--col-bg);
-  color: var(--col-text);
+  --col-text: var(--col-text-body);
 
   cursor: pointer;
 }
 
 #spark > section {
   grid-column-start: 2;
-  color: var(--col-text);
-
   background-color: var(--col-bg);
   color: var(--col-text);
 }
 
+#spark .oracle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 #spark .oracle .wrapper {
-  /* padding: 1em 20% 0; */
   width: 100%;
   height: 100%;
+
+  padding: auto 20%;
 }
 
 #spark .oracle .inner {
@@ -69,13 +71,11 @@ main {
   fill: var(--col-darker);
   top: 0;
   left: 0;
-  margin: 7% 20%;
 }
 
 #spark .content {
   padding: 2em 1.5em;
   --col-bg: var(--col-darker);
-  --col-text: var(--col-lighter);
 
   display: flex;
   align-items: center;
@@ -87,4 +87,16 @@ main {
   text-align: center;
   text-transform: uppercase;
   font-size: 0.8em;
+  color: var(--col-darker);
+}
+
+#spark .brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#spark .brand svg {
+  width: 20%;
+  min-width: 20px;
+  fill: var(--col-darker);
 }

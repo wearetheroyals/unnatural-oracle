@@ -1,6 +1,7 @@
 import React from 'react';
 import APIConn from '../ApiConn';
 import OracleEye from './OracleEye';
+import { ReactComponent as Logo } from '../assets/logo.svg';
 import './App.css';
 
 import { randomRangeInt } from '../util/randomRange.js';
@@ -34,7 +35,8 @@ class App extends React.Component {
     const paletteStyle = {
       '--col-base': `var(--palette-${pName}-base)`,
       '--col-lighter': `var(--palette-${pName}-lighter)`,
-      '--col-darker': `var(--palette-${pName}-darker)`
+      '--col-darker': `var(--palette-${pName}-darker)`,
+      '--col-text': `var(--palette-${pName}-text)`
     };
     this.setState({ currentPaletteNumber: pNum });
     this.setState({ paletteStyle });
@@ -123,7 +125,9 @@ class App extends React.Component {
               <OracleEye />
             </section>
             <section className='content'>{contentComponent}</section>
-            <section className='brand'>Royals</section>
+            <section className='brand'>
+              <Logo />
+            </section>
           </div>
         </div>
       </main>
