@@ -5,18 +5,51 @@ html,
 body {
   width: 100%;
   min-height: 100vh;
+
+  background-color: #6d695c;
+  background-image: repeating-linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.1) 1px,
+      transparent 1px,
+      transparent 60px
+    ),
+    repeating-linear-gradient(
+      60deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.1) 1px,
+      transparent 1px,
+      transparent 60px
+    ),
+    linear-gradient(
+      60deg,
+      rgba(0, 0, 0, 0.1) 25%,
+      transparent 25%,
+      transparent 75%,
+      rgba(0, 0, 0, 0.1) 75%,
+      rgba(0, 0, 0, 0.1)
+    ),
+    linear-gradient(
+      120deg,
+      rgba(0, 0, 0, 0.1) 25%,
+      transparent 25%,
+      transparent 75%,
+      rgba(0, 0, 0, 0.1) 75%,
+      rgba(0, 0, 0, 0.1)
+    );
+  background-size: 70px 120px;
 }
 
 main {
-  background-color: gold;
-  min-height: 100vh;
+  height: 100vh;
+  min-height: 400px;
 }
 
 #spark {
   display: grid;
   grid-template-rows: auto 5fr auto;
   width: 100%;
-  min-height: 100vh;
+  height: 100%;
 
   --col-base: var(--palette-green-base);
   --col-lighter: var(--palette-green-lighter);
@@ -29,10 +62,21 @@ main {
 }
 
 @media (min-aspect-ratio: 2/3) {
-  #spark {
-    max-width: 50vh;
+  main {
     padding: 2em 0;
+  }
+
+  #spark {
+    --dist: calc(0.2vw + 0.5vh + 0.5px);
+    --dist2: calc(var(--dist) * 3);
+
+    border-radius: 0 1em;
+    overflow: hidden;
+    min-width: 300px;
+    max-width: 50vh;
     margin: 0 auto;
+    box-shadow: var(--dist) var(--dist) var(--dist2) var(--dist)
+      rgba(0, 0, 0, 0.3);
   }
 }
 

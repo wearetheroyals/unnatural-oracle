@@ -114,17 +114,15 @@ class App extends React.Component {
     );
 
     return (
-      <main>
-        <div id='spark' style={this.state.paletteStyle} onClick={this.loadNext}>
-          <section className='oracle'>
-            <OracleEye />
-          </section>
-          <section className='content'>{contentComponent}</section>
-          <section className='brand'>
-            <Logo />
-          </section>
-        </div>
-      </main>
+      <div id='spark' style={this.state.paletteStyle} onClick={this.loadNext}>
+        <section className='oracle'>
+          <OracleEye />
+        </section>
+        <section className='content'>{contentComponent}</section>
+        <section className='brand'>
+          <Logo />
+        </section>
+      </div>
     );
   }
 }
