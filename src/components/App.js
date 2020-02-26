@@ -7,7 +7,10 @@ import './App.css';
 import { randomRangeInt } from '../util/randomRange.js';
 import Loader from './Loader';
 
-const mockDataRoute = '/mock';
+const ROUTES = {
+  MOCK: '/mock',
+  OFFLINE: '/offline'
+};
 
 class App extends React.Component {
   constructor() {
@@ -19,7 +22,8 @@ class App extends React.Component {
       isLoading: false,
       currentPaletteNumber: 0,
       paletteStyle: {},
-      useMockData: false
+      useMockData: false,
+      forceOffline: false
     };
 
     this.noConnectionMessage = (
@@ -32,11 +36,17 @@ class App extends React.Component {
   }
 
   init = async () => {
-    const useMock = window.location.pathname.toLowerCase() == mockDataRoute;
-    this.setState({ useMock });
+    // chech for routes which set special testing statuses
+    const path = this.getPath();
+    this.setState({
+      useMockData: path === ROUTES.MOCK,
+      forceOffline: path === ROUTES.OFFLINE
+    });
 
+    // set first color palette
     this.changePalette();
 
+    // fetch content
     try {
       await this.fetchContentIndex();
       await this.fetchRandomItem();
@@ -46,11 +56,18 @@ class App extends React.Component {
     }
   };
 
+  isConnected = () => {
+    return navigator.onLine && !this.state.forceOffline;
+  };
+
+  getPath = () => window.location.pathname.toLowerCase();
+
   configureAPIForMockOrLiveData = () => {
-    this.api.useMockData = this.state.useMock;
-    if (this.state.useMock) {
+    const { useMockData } = this.state;
+    this.api.useMockData = useMockData;
+    if (useMockData) {
       console.log(
-        `Using mocked data because\n> you're on the ${mockDataRoute} route.`
+        `Using mocked data because\n> you're on the ${ROUTES.MOCK} route.`
       );
     }
   };
@@ -136,8 +153,7 @@ class App extends React.Component {
   }
 
   render() {
-    const isConnected = navigator.onLine;
-    const contentComponent = isConnected ? (
+    const contentComponent = this.isConnected() ? (
       this.isLoading ? (
         <Loader />
       ) : (

@@ -6,7 +6,7 @@ import { ReactComponent as Blinky3 } from '../assets/blinky/blinky_3.svg';
 import { ReactComponent as Blinky4 } from '../assets/blinky/blinky_4.svg';
 import { ReactComponent as Blinky5 } from '../assets/blinky/blinky_5.svg';
 
-import { ReactComponent as Pupil } from '../assets/pupil.svg';
+// import { ReactComponent as Pupil } from '../assets/pupil.svg';
 // import { ReactComponent as Eye } from '../assets/blinky.svg';
 
 class OracleEye extends React.Component {
