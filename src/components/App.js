@@ -115,20 +115,14 @@ class App extends React.Component {
 
     return (
       <main>
-        <div className='ratio'>
-          <div
-            id='spark'
-            style={this.state.paletteStyle}
-            onClick={this.loadNext}
-          >
-            <section className='oracle'>
-              <OracleEye />
-            </section>
-            <section className='content'>{contentComponent}</section>
-            <section className='brand'>
-              <Logo />
-            </section>
-          </div>
+        <div id='spark' style={this.state.paletteStyle} onClick={this.loadNext}>
+          <section className='oracle'>
+            <OracleEye />
+          </section>
+          <section className='content'>{contentComponent}</section>
+          <section className='brand'>
+            <Logo />
+          </section>
         </div>
       </main>
     );

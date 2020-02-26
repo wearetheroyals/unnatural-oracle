@@ -74,11 +74,9 @@ class OracleEye extends React.Component {
 
   render() {
     return (
-      <div className='wrapper'>
-        <div className='inner'>
-          <Pupil />
-          {this.state.showAsset}
-        </div>
+      <div>
+        {/* <Pupil className='pupil' /> */}
+        {this.state.showAsset}
       </div>
     );
   }
