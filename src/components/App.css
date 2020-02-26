@@ -7,30 +7,12 @@ body {
   min-height: 100vh;
 }
 
-body {
-}
-
 main {
-  /* TODO: Center shit in here */
   background-color: gold;
   min-height: 100vh;
 }
 
 #spark {
-  /* grid-column-start: 2; */
-  /* max-width: 450px; */
-  /* top: 0;
-  left: 0; */
-
-  /* display: grid;
-  grid-template-areas:
-  'oracle'
-  'content'
-  'brand';
-  grid-template-rows: 2fr 5fr 1fr;
-  max-height: 100%; */
-  /* grid-template-columns: 5fr 90fr 5fr; */
-
   display: grid;
   grid-template-rows: auto 5fr auto;
   width: 100%;
@@ -46,6 +28,14 @@ main {
   cursor: pointer;
 }
 
+@media (min-aspect-ratio: 2/3) {
+  #spark {
+    max-width: calc(100vh * 0.5);
+    padding: 2em 0;
+    margin: 0 auto;
+  }
+}
+
 #spark > section {
   background-color: var(--col-bg);
   color: var(--col-text);
@@ -55,28 +45,8 @@ main {
   fill: var(--col-darker);
 }
 
-@media (min-aspect-ratio: 2/3) {
-  main {
-    background-color: red;
-    /* display: flex;
-    align-items: center;
-    justify-content: center; */
-  }
-
-  #spark {
-    max-width: 550px;
-    padding: 2em 0;
-    margin: 0 auto;
-  }
-
-  #spark .oracle svg {
-    /* max-width: 300px; */
-  }
-}
-
 #spark .oracle svg {
   margin: 7% auto;
-  /* max-width: 30vw; */
   max-width: 40%;
 }
 
