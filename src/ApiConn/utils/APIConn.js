@@ -9,9 +9,9 @@ const ERRORS = {
 const serverlessFuncs = new ServerlessFuncs();
 
 export default class APIConn {
-  constructor() {
+  constructor({ useMockdata = false } = {}) {
     this.isLoading = false;
-    this.useMockData = false;
+    this.useMockData = useMockdata;
   }
 
   fetchContentIndex() {
@@ -34,7 +34,8 @@ export default class APIConn {
         );
         resolve(result);
       } catch (e) {
-        reject(e);
+        console.error('INDEX could not be fetched via serverless functions:');
+        console.error(e);
       } finally {
         this.isLoading = false;
       }
@@ -69,6 +70,8 @@ export default class APIConn {
         );
         resolve(records[0]);
       } catch (e) {
+        console.error('ITEM could not be fetched via serverless functions:');
+        console.error(e);
         reject(e);
       } finally {
         this.isLoading = false;

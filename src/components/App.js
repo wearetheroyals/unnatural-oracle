@@ -7,6 +7,8 @@ import './App.css';
 import { randomRangeInt } from '../util/randomRange.js';
 import Loader from './Loader';
 
+const mockDataRoute = '/mock';
+
 class App extends React.Component {
   constructor() {
     super();
@@ -16,16 +18,41 @@ class App extends React.Component {
       itemIndex: [],
       isLoading: false,
       currentPaletteNumber: 0,
-      paletteStyle: {}
+      paletteStyle: {},
+      useMockData: false
     };
 
+    this.noConnectionMessage = (
+      <p>
+        You're not connected to the internet right now! I need the interpipes to
+        make my magic.
+      </p>
+    );
     this.palettes = ['green', 'blue', 'red', 'yellow'];
   }
 
   init = async () => {
+    const useMock = window.location.pathname.toLowerCase() == mockDataRoute;
+    this.setState({ useMock });
+
     this.changePalette();
-    await this.fetchContentIndex();
-    await this.fetchRandomItem();
+
+    try {
+      await this.fetchContentIndex();
+      await this.fetchRandomItem();
+    } catch (e) {
+      console.error('Error connecting with serverless functions:');
+      console.error(e);
+    }
+  };
+
+  configureAPIForMockOrLiveData = () => {
+    this.api.useMockData = this.state.useMock;
+    if (this.state.useMock) {
+      console.log(
+        `Using mocked data because\n> you're on the ${mockDataRoute} route.`
+      );
+    }
   };
 
   changePalette = () => {
@@ -47,6 +74,7 @@ class App extends React.Component {
   }
 
   fetchContentIndex = () => {
+    this.configureAPIForMockOrLiveData();
     return new Promise(async (resolve, reject) => {
       try {
         this.isLoading = true;
@@ -62,6 +90,7 @@ class App extends React.Component {
   };
 
   fetchContentItem = itemId => {
+    this.configureAPIForMockOrLiveData();
     return new Promise(async (resolve, reject) => {
       try {
         this.isLoading = true;
@@ -107,10 +136,15 @@ class App extends React.Component {
   }
 
   render() {
-    const contentComponent = this.isLoading ? (
-      <Loader />
+    const isConnected = navigator.onLine;
+    const contentComponent = isConnected ? (
+      this.isLoading ? (
+        <Loader />
+      ) : (
+        <p>{this.currentItem.content}</p>
+      )
     ) : (
-      <p>{this.currentItem.content}</p>
+      this.noConnectionMessage
     );
 
     return (
