@@ -1,16 +1,15 @@
 import React from 'react';
 import APIConn from '../ApiConn';
-import OracleEye from './OracleEye';
-import { ReactComponent as Logo } from '../assets/logo.svg';
-import './App.css';
 
 import { randomRangeInt } from '../util/randomRange.js';
-import Loader from './Loader';
+import { MESSAGES, ROUTES } from '../strings';
 
-const ROUTES = {
-  MOCK: '/mock',
-  OFFLINE: '/offline'
-};
+import { Card, CardFooter, CardHeader, CardBody } from './Card';
+import Loader from './Loader';
+import OracleEye from './OracleEye';
+import { ReactComponent as Logo } from '../assets/logo.svg';
+
+import './App.css';
 
 class App extends React.Component {
   constructor() {
@@ -22,53 +21,38 @@ class App extends React.Component {
       isLoading: false,
       currentPaletteNumber: 0,
       paletteStyle: {},
-      useMockData: false,
-      forceOffline: false
+      testRoute: null
     };
 
-    this.noConnectionMessage = (
-      <p>
-        You're not connected to the internet right now! I need the interpipes to
-        make my magic.
-      </p>
-    );
     this.palettes = ['green', 'blue', 'red', 'yellow'];
   }
 
   init = async () => {
-    // chech for routes which set special testing statuses
-    const path = this.getPath();
-    this.setState({
-      useMockData: path === ROUTES.MOCK,
-      forceOffline: path === ROUTES.OFFLINE
-    });
+    // check for routes which set special testing statuses
+    this.setState({ testRoute: this.isTestingRoute() });
 
     // set first color palette
     this.changePalette();
 
     // fetch content
     try {
-      await this.fetchContentIndex();
+      await this.fetchFromApi('fetchContentIndex', 'itemIndex');
       await this.fetchRandomItem();
     } catch (e) {
-      console.error('Error connecting with serverless functions:');
-      console.error(e);
+      console.error(MESSAGES.API_CONNECTION_ERROR, e);
     }
   };
 
-  isConnected = () => {
-    return navigator.onLine && !this.state.forceOffline;
+  isTestingRoute = () => {
+    const route = window.location.pathname.toLowerCase();
+    return Object.values(ROUTES).includes(route) ? route : null;
   };
 
-  getPath = () => window.location.pathname.toLowerCase();
-
   configureAPIForMockOrLiveData = () => {
-    const { useMockData } = this.state;
+    const useMockData = this.state.testRoute === ROUTES.MOCK;
     this.api.useMockData = useMockData;
     if (useMockData) {
-      console.log(
-        `Using mocked data because\n> you're on the ${ROUTES.MOCK} route.`
-      );
+      console.log(MESSAGES.USING_MOCK_DATA);
     }
   };
 
@@ -90,13 +74,14 @@ class App extends React.Component {
     this.init();
   }
 
-  fetchContentIndex = () => {
+  fetchFromApi = (method, storeAs, args = {}) => {
     this.configureAPIForMockOrLiveData();
+    this.isLoading = true;
+
     return new Promise(async (resolve, reject) => {
       try {
-        this.isLoading = true;
-        const itemIndex = await this.api.fetchContentIndex();
-        this.setState({ itemIndex });
+        const result = await this.api[method](args);
+        this.setState({ [storeAs]: result });
         resolve(true);
       } catch (e) {
         reject(e);
@@ -106,30 +91,18 @@ class App extends React.Component {
     });
   };
 
-  fetchContentItem = itemId => {
-    this.configureAPIForMockOrLiveData();
-    return new Promise(async (resolve, reject) => {
-      try {
-        this.isLoading = true;
-        const currentItem = await this.api.fetchItem(itemId);
-        this.setState({ currentItem });
-        resolve(true);
-      } catch (e) {
-        reject(e);
-      } finally {
-        this.isLoading = false;
-      }
-    });
+  getRandomContentId = () => {
+    const len = this.state.itemIndex.length;
+    if (!len || len < 1) {
+      throw new Error(MESSAGES.INDEX_NOT_FOUND);
+    }
+    const int = randomRangeInt(0, Math.max(len - 1), 0);
+    return this.state.itemIndex[int].id;
   };
 
   fetchRandomItem = () => {
-    const itemIndex = [...this.state.itemIndex];
-    if (itemIndex.length === 0)
-      throw new Error(
-        `Can't fetch a random item until you load the item index.`
-      );
-    const int = randomRangeInt(0, Math.max(itemIndex.length - 1), 0);
-    return this.fetchContentItem(itemIndex[int].id);
+    const itemId = this.getRandomContentId();
+    return this.fetchFromApi('fetchItem', 'currentItem', { itemId });
   };
 
   loadNext = () => {
@@ -139,7 +112,7 @@ class App extends React.Component {
     }
   };
 
-  get currentItem() {
+  getCurrentItem() {
     let obj = this.state.currentItem;
     return obj ? (obj.fields ? { ...obj.fields } : {}) : {};
   }
@@ -152,27 +125,25 @@ class App extends React.Component {
     return this.state.isLoading;
   }
 
-  render() {
-    const contentComponent = this.isConnected() ? (
-      this.isLoading ? (
-        <Loader />
-      ) : (
-        <p>{this.currentItem.content}</p>
-      )
-    ) : (
-      this.noConnectionMessage
-    );
+  getCardBodytext = () => {
+    const online =
+      this.state.testRoute !== ROUTES.OFFLINE && this.api.isOnline();
+    return online ? this.getCurrentItem().content : MESSAGES.NO_CONNECTION;
+  };
 
+  render() {
     return (
-      <div id='spark' style={this.state.paletteStyle} onClick={this.loadNext}>
-        <section className='oracle'>
+      <Card style={this.state.paletteStyle} onClick={this.loadNext}>
+        <CardHeader>
           <OracleEye />
-        </section>
-        <section className='content'>{contentComponent}</section>
-        <section className='brand'>
+        </CardHeader>
+        <CardBody>
+          {this.isLoading ? <Loader /> : <p>{this.getCardBodytext()}</p>}
+        </CardBody>
+        <CardFooter>
           <Logo />
-        </section>
-      </div>
+        </CardFooter>
+      </Card>
     );
   }
 }

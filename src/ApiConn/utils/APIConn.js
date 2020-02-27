@@ -14,6 +14,10 @@ export default class APIConn {
     this.useMockData = useMockdata;
   }
 
+  isOnline = () => {
+    return navigator.onLine;
+  };
+
   fetchContentIndex() {
     serverlessFuncs.useMock = this.useMockData;
 
@@ -44,10 +48,10 @@ export default class APIConn {
 
   /**
    * Fetches a content item via API. Can fetch a specific item using the
-   * contentId argument or, if no contentId argument is supplied, a random item will be fetched.
-   * @param {str} contentId
+   * itemId argument or, if no itemId argument is supplied, a random item will be fetched.
+   * @param {str} itemId
    */
-  fetchItem(contentId) {
+  fetchItem({ itemId }) {
     serverlessFuncs.useMock = this.useMockData;
 
     return new Promise(async (resolve, reject) => {
@@ -61,7 +65,7 @@ export default class APIConn {
       const method = `/${NAME}`;
       const params = {
         fields: [TITLE, CONTENT, TAGS, ACTIONS],
-        filterByFormula: `{rec_id}="${contentId}"`
+        filterByFormula: `{rec_id}="${itemId}"`
       };
 
       try {
