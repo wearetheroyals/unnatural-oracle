@@ -1,10 +1,7 @@
 import ServerlessFuncs from './ServerlessFuncs';
 import Query from './Query';
 import { TABLES } from '../../config';
-
-const ERRORS = {
-  NO_CONCURRENT: 'Wait until current request is complete.'
-};
+import { MESSAGES } from '../../strings';
 
 const serverlessFuncs = new ServerlessFuncs();
 
@@ -18,11 +15,22 @@ export default class APIConn {
     return navigator.onLine;
   };
 
+  set useMockData(bool) {
+    this._useMockData = bool;
+    if (bool) {
+      console.log(MESSAGES.USING_MOCK_DATA);
+    }
+  }
+
+  get useMockData() {
+    return this._useMockData;
+  }
+
   fetchContentIndex() {
     serverlessFuncs.useMock = this.useMockData;
 
     return new Promise(async (resolve, reject) => {
-      if (this.isLoading) reject(ERRORS.NO_CONCURRENT);
+      if (this.isLoading) reject(MESSAGES.NO_CONCURRENT_FETCH);
 
       this.isLoading = true;
       const { NAME, FIELDS } = TABLES.SPARK;
@@ -55,7 +63,7 @@ export default class APIConn {
     serverlessFuncs.useMock = this.useMockData;
 
     return new Promise(async (resolve, reject) => {
-      if (this.isLoading) reject(ERRORS.NO_CONCURRENT);
+      if (this.isLoading) reject(MESSAGES.NO_CONCURRENT_FETCH);
 
       this.isLoading = true;
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import APIConn from '../ApiConn';
 
-import { randomRangeInt } from '../util/randomRange.js';
+import { getRandomArrayIndex } from '../util/randomRange.js';
 import { MESSAGES, ROUTES } from '../strings';
 
 import { Card, CardFooter, CardHeader, CardBody } from './Card';
@@ -49,11 +49,7 @@ class App extends React.Component {
   };
 
   configureAPIForMockOrLiveData = () => {
-    const useMockData = this.state.testRoute === ROUTES.MOCK;
-    this.api.useMockData = useMockData;
-    if (useMockData) {
-      console.log(MESSAGES.USING_MOCK_DATA);
-    }
+    this.api.useMockData = this.state.testRoute === ROUTES.MOCK;
   };
 
   changePalette = () => {
@@ -91,18 +87,14 @@ class App extends React.Component {
     });
   };
 
-  getRandomContentId = () => {
-    const len = this.state.itemIndex.length;
-    if (!len || len < 1) {
-      throw new Error(MESSAGES.INDEX_NOT_FOUND);
-    }
-    const int = randomRangeInt(0, Math.max(len - 1), 0);
-    return this.state.itemIndex[int].id;
-  };
-
   fetchRandomItem = () => {
-    const itemId = this.getRandomContentId();
-    return this.fetchFromApi('fetchItem', 'currentItem', { itemId });
+    try {
+      const n = getRandomArrayIndex(this.state.itemIndex);
+      const itemId = this.state.itemIndex[n].id;
+      return this.fetchFromApi('fetchItem', 'currentItem', { itemId });
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   loadNext = () => {
