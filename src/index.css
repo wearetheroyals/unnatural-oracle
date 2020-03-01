@@ -20,7 +20,7 @@ html {
   --col-text-heading: #333344;
   --col-text-subheading: #333344;
 
-  --palette-blue-base: #217afa;
+  /* --palette-blue-base: #217afa;
   --palette-blue-darker: #002070;
   --palette-blue-lighter: #d0f0ff;
   --palette-blue-text: var(--col-text-body-invert);
@@ -40,7 +40,7 @@ html {
   --palette-red-base: #ff4020;
   --palette-red-darker: #d02030;
   --palette-red-lighter: #ffd0de;
-  --palette-red-text: var(--col-text-body-invert);
+  --palette-red-text: var(--col-text-body-invert); */
 }
 
 /* *****************************************

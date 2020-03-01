@@ -1,0 +1,52 @@
+/* 
+  This MUST ONLY contain:
+  • one class selector for each palette variant you want to
+    be avilable to the main apllication
+
+  Each pallete requires:
+  • --col-base, --col-darker, --col-lighter, --col-text
+  • a className unique to this file (see note below)
+
+  **** NOTE re: ClassNames ****
+  This file is loaded into the app using React's builtin
+  CSS module handling. This means that React will 
+  automatically rename all classes in this file to prevent
+  namespace collisions with globally-scoped css.
+
+  As a result, you don't need to worry about ensuring that the 
+  classnames you use here are unique across your entire app.
+  They only need to be unique within this document.
+  
+*/
+
+.p1 {
+  --col-base: #217afa;
+  --col-darker: #002070;
+  --col-lighter: #d0f0ff;
+  --col-text: #fff;
+  --col-text: var(--col-text-body-invert);
+}
+
+.p2 {
+  --col-base: #20a050;
+  --col-darker: #107030;
+  --col-lighter: #c0e0c0;
+  --col-text: #fff;
+  --col-text: var(--col-text-body-invert);
+}
+
+.p3 {
+  --col-base: #ffe040;
+  --col-darker: #ffc000;
+  --col-lighter: #fff0c0;
+  --col-text: #333366;
+  --col-text: var(--col-text-body);
+}
+
+.p4 {
+  --col-base: #ff4020;
+  --col-darker: #d02030;
+  --col-lighter: #ffd0de;
+  --col-text: #fff;
+  --col-text: var(--col-text-body-invert);
+}

@@ -4,6 +4,10 @@ import APIConn from '../ApiConn';
 import { getRandomArrayIndex } from '../util/randomRange.js';
 import { MESSAGES, ROUTES } from '../strings';
 
+// Theming via hooks and context provider
+import { ThemeContext, getPaletteAtIndex } from '../Theme';
+
+// UI Components
 import { Card, CardFooter, CardHeader, CardBody } from './Card';
 import Loader from './Loader';
 import OracleEye from './OracleEye';
@@ -14,17 +18,15 @@ import './App.css';
 class App extends React.Component {
   constructor() {
     super();
+
     this.api = new APIConn();
     this.state = {
       currentItem: null,
       itemIndex: [],
       isLoading: false,
-      currentPaletteNumber: 0,
-      paletteStyle: {},
+      paletteIndex: 0,
       testRoute: null
     };
-
-    this.palettes = ['green', 'blue', 'red', 'yellow'];
   }
 
   init = async () => {
@@ -53,17 +55,8 @@ class App extends React.Component {
   };
 
   changePalette = () => {
-    let pNum = this.state.currentPaletteNumber;
-    pNum = pNum < this.palettes.length - 1 ? pNum + 1 : 0;
-    const pName = this.palettes[pNum];
-    const paletteStyle = {
-      '--col-base': `var(--palette-${pName}-base)`,
-      '--col-lighter': `var(--palette-${pName}-lighter)`,
-      '--col-darker': `var(--palette-${pName}-darker)`,
-      '--col-text': `var(--palette-${pName}-text)`
-    };
-    this.setState({ currentPaletteNumber: pNum });
-    this.setState({ paletteStyle });
+    const { index } = getPaletteAtIndex(this.state.paletteIndex + 1);
+    this.setState({ paletteIndex: index });
   };
 
   componentDidMount() {
@@ -124,18 +117,21 @@ class App extends React.Component {
   };
 
   render() {
+    const { className } = getPaletteAtIndex(this.state.paletteIndex);
     return (
-      <Card style={this.state.paletteStyle} onClick={this.loadNext}>
-        <CardHeader>
-          <OracleEye />
-        </CardHeader>
-        <CardBody>
-          {this.isLoading ? <Loader /> : <p>{this.getCardBodytext()}</p>}
-        </CardBody>
-        <CardFooter>
-          <Logo />
-        </CardFooter>
-      </Card>
+      <ThemeContext.Provider value={className}>
+        <Card onClick={this.loadNext}>
+          <CardHeader>
+            <OracleEye />
+          </CardHeader>
+          <CardBody>
+            {this.isLoading ? <Loader /> : <p>{this.getCardBodytext()}</p>}
+          </CardBody>
+          <CardFooter>
+            <Logo />
+          </CardFooter>
+        </Card>
+      </ThemeContext.Provider>
     );
   }
 }
