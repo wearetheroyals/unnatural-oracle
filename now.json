@@ -1,6 +1,0 @@
-{
-  "env": {
-    "DB_KEY": "@au_com_advanceparty_sparky_db_key",
-    "DB_ID": "@au_com_advanceparty_sparky_db_id"
-  }
-}
