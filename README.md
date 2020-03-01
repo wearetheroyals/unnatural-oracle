@@ -24,3 +24,4 @@ The app will be redeployed whenever you push to the master brach of the Github r
 ### 2. Dev
 
 Pushing to a non-master branch on the repo will trigger a preview deployment.
+  
