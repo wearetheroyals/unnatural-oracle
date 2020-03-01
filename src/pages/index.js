@@ -70,7 +70,7 @@ export default class CardPage extends React.Component {
 
 export const query = graphql`
   query {
-    allAirtable(filter: { table: { eq: "spark" } }) {
+    allAirtable {
       nodes {
         data {
           content
@@ -79,3 +79,14 @@ export const query = graphql`
     }
   }
 `;
+// export const query = graphql`
+//   query {
+//     allAirtable(filter: { table: { eq: "spark" } }) {
+//       nodes {
+//         data {
+//           content
+//         }
+//       }
+//     }
+//   }
+// `;
