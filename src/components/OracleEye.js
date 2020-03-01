@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { ReactComponent as Blinky1 } from '../assets/blinky/blinky_1.svg';
-import { ReactComponent as Blinky2 } from '../assets/blinky/blinky_2.svg';
-import { ReactComponent as Blinky3 } from '../assets/blinky/blinky_3.svg';
-import { ReactComponent as Blinky4 } from '../assets/blinky/blinky_4.svg';
-import { ReactComponent as Blinky5 } from '../assets/blinky/blinky_5.svg';
+import Blinky1 from '../assets/blinky/blinky_1.svg';
+import Blinky2 from '../assets/blinky/blinky_2.svg';
+import Blinky3 from '../assets/blinky/blinky_3.svg';
+import Blinky4 from '../assets/blinky/blinky_4.svg';
+import Blinky5 from '../assets/blinky/blinky_5.svg';
 
 class OracleEye extends React.Component {
   constructor() {
