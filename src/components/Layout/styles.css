@@ -40,26 +40,33 @@ body {
   background-size: 70px 120px;
 }
 
+html {
+  --font-family: 'DM Sans', sans-serif;
+  --font-size: min(calc(4px + 4.4vw), 24px);
+  --line-height: 1.55em;
+  --text-rendering: optimizeSpeed;
+
+  font-family: var(--font-family);
+  line-height: var(--line-height);
+  font-size: var(--font-size);
+  text-rendering: var(--text-rendering);
+
+  color: var(--col-text-body);
+  background: var(--col-body-bg);
+
+  min-height: 100vh;
+
+  --col-body-bg: #fff;
+  --col-text-body: rgba(60, 60, 60, 0.8);
+  --col-text-body-invert: rgba(255, 255, 255, 0.8);
+  --col-text-heading: #333344;
+  --col-text-subheading: #333344;
+}
+
 main {
   height: 100vh;
   min-height: 400px;
 }
-
-/* .card {
-  display: grid;
-  grid-template-rows: auto 5fr auto;
-  width: 100%;
-  height: 100%;
-
-  --col-base: var(--palette-green-base);
-  --col-lighter: var(--palette-green-lighter);
-  --col-darker: var(--palette-green-darker);
-
-  --col-bg: var(--col-lighter);
-  --col-text: var(--col-text-body);
-
-  cursor: pointer;
-} */
 
 @media (min-aspect-ratio: 2/3) {
   main {

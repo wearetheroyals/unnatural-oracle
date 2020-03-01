@@ -7,9 +7,6 @@ import { Card, CardFooter, CardHeader, CardBody } from '../components/Card';
 import OracleEye from '../components/OracleEye';
 import Logo from '../assets/logo.svg';
 
-// main app styles
-import '../components/App.css';
-
 // Theming via hooks and context provider
 import { ThemeContext, getPaletteAtIndex } from '../Theme';
 

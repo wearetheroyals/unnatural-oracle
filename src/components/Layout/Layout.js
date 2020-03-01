@@ -1,3 +1,5 @@
 import React from 'react';
-import './layout.css';
+import './reset.css';
+import './styles.css';
+
 export default ({ children }) => <main>{children}</main>;
