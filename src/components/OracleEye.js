@@ -70,12 +70,7 @@ class OracleEye extends React.Component {
   };
 
   render() {
-    return (
-      <div>
-        {/* <Pupil className='pupil' /> */}
-        {this.state.showAsset}
-      </div>
-    );
+    return <div>{this.state.showAsset}</div>;
   }
 }
 export default OracleEye;
