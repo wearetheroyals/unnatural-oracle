@@ -1,24 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import htmlHead from './htmlHead';
+import ModalContext from '../../store/modalContext';
 import Info from '../Info';
 
 import './reset.css';
 import './styles.css';
 
-let show = true;
-
-const onInfoClick = e => {
-  show = !show;
-};
-
 export default ({ children }) => {
-  const [infoVisible, setInfoVisible] = useState(true);
-
   return (
     <>
       {htmlHead}
-      <Info onClick={() => setInfoVisible(false)} show={infoVisible} />
+      <ModalContext.Consumer>
+        {({ open }) => {
+          return <Info open={open} />;
+        }}
+      </ModalContext.Consumer>
       <main>{children}</main>
     </>
   );

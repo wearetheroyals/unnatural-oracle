@@ -1,8 +1,10 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 
-// UI Components
+// context providers
+import ModalContext from '../store/modalContext';
 
+// UI Components
 import { Card, CardFooter, CardHeader, CardBody } from '../components/Card';
 import OracleEye from '../components/OracleEye';
 import Logo from '../assets/logo.svg';
@@ -67,15 +69,18 @@ export default class CardPage extends React.Component {
 
     return (
       <ThemeContext.Provider value={className}>
-        {/* <Card onClick={() => this.nextCard()}> */}
         <Card>
           <CardHeader onClick={() => this.nextCard()}>
             <OracleEye />
           </CardHeader>
           <CardBody text={content} onClick={() => this.nextCard()} />
-          <CardFooter onClick={() => this.nextCard()}>
-            <Logo />
-          </CardFooter>
+          <ModalContext.Consumer>
+            {({ openModal }) => (
+              <CardFooter onClick={openModal}>
+                <Logo />
+              </CardFooter>
+            )}
+          </ModalContext.Consumer>
         </Card>
       </ThemeContext.Provider>
     );
