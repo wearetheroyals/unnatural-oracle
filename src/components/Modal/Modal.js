@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import ModalContext from '../store/modalContext';
+import ModalContext from '../../store/modalContext';
 import { motion } from 'framer-motion';
+import styles from './ModalStyles.module.css';
 
 const Info = ({ open }) => {
   const handlLifeCycle = () => {
@@ -15,10 +16,10 @@ const Info = ({ open }) => {
       {({ closeModal }) => (
         <motion.div
           variants={container}
-          initial={closed}
+          initial={'closed'}
           transition={duration}
           animate={open ? 'open' : 'closed'}
-          className='wtf'
+          className={styles.modal}
           onClick={closeModal}
         >
           <motion.section variants={inner}>{modalContent}</motion.section>

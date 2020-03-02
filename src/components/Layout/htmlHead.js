@@ -5,7 +5,8 @@ const title = 'Unnatural Oracle by The Royals';
 const titleShort = 'Oracle';
 const descriptionShort = 'Introduce some unnatural change into your day.';
 const description = `Stuck in a creative rut? Need to shift your perspective? ${descriptionShort}`;
-const siteRoot = `${window.location.protocol}//${window.location.hostname}`;
+// const siteRoot = `${window.location.protocol}//${window.location.hostname}`;
+const siteRoot = `/`;
 
 const htmlHead = (
   <Helmet>

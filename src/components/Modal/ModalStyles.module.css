@@ -1,0 +1,28 @@
+.modal {
+  position: fixed;
+  z-index: 200;
+  min-height: 100vh;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  padding: 0.5em;
+
+  /* color: #fff; */
+  background-blend-mode: difference;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal > section {
+  padding: 3em 2em;
+  font-size: 0.8em;
+  flex-grow: 0;
+  width: 100%;
+  border-radius: 10px;
+  mix-blend-mode: difference;
+  background-color: #fff;
+
+  align-self: center;
+}

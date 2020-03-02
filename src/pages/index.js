@@ -5,6 +5,8 @@ import { graphql } from 'gatsby';
 import ModalContext from '../store/modalContext';
 import { ThemeContext, getPaletteAtIndex } from '../components/Theme';
 
+import Layout from '../components/Layout';
+
 // UI Components
 import { Card, CardFooter, CardHeader, CardBody } from '../components/Card';
 import OracleEye from '../components/OracleEye';
@@ -62,21 +64,23 @@ export default class CardPage extends React.Component {
     const content = lastItem(this.state.records.seen);
 
     return (
-      <ThemeContext.Provider value={className}>
-        <Card>
-          <CardHeader onClick={() => this.nextCard()}>
-            <OracleEye />
-          </CardHeader>
-          <CardBody text={content} onClick={() => this.nextCard()} />
-          <ModalContext.Consumer>
-            {({ openModal }) => (
-              <CardFooter onClick={openModal}>
-                <Logo />
-              </CardFooter>
-            )}
-          </ModalContext.Consumer>
-        </Card>
-      </ThemeContext.Provider>
+      <Layout>
+        <ThemeContext.Provider value={className}>
+          <Card>
+            <CardHeader onClick={() => this.nextCard()}>
+              <OracleEye />
+            </CardHeader>
+            <CardBody text={content} onClick={() => this.nextCard()} />
+            <ModalContext.Consumer>
+              {({ openModal }) => (
+                <CardFooter onClick={openModal}>
+                  <Logo />
+                </CardFooter>
+              )}
+            </ModalContext.Consumer>
+          </Card>
+        </ThemeContext.Provider>
+      </Layout>
     );
   }
 }
