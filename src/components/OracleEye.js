@@ -25,13 +25,18 @@ class OracleEye extends React.Component {
     this.state = {
       sequencePosition: 0,
       blinking: false,
-      showAsset: this.defaultAsset
+      showAsset: this.defaultAsset,
+      timeout: null
     };
   }
 
   componentDidMount() {
     this.startBlink();
   }
+
+  componentWillUnmount = () => {
+    this.stopTimeout();
+  };
 
   getRandomBlinkInterval = () => {
     let int;
@@ -52,7 +57,8 @@ class OracleEye extends React.Component {
     if (sequencePosition >= this.frameSequence.length) {
       showAsset = this.defaultAsset;
       blinking = false;
-      setTimeout(this.startBlink, this.getRandomBlinkInterval());
+
+      this.startTimeout();
     } else {
       const assetIndex = this.frameSequence[sequencePosition];
       showAsset = this.frameAssets[assetIndex];
@@ -67,6 +73,20 @@ class OracleEye extends React.Component {
       this.setState({ sequencePosition: 0, blinking: true });
       this.blink();
     }
+  };
+
+  startTimeout = () => {
+    this.stopTimeout();
+    const timeout = setTimeout(this.startBlink, this.getRandomBlinkInterval());
+    this.setState({ timeout });
+  };
+
+  stopTimeout = () => {
+    const { timeout } = this.state;
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+    this.setState({ timeout: null });
   };
 
   render() {

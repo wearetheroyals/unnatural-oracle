@@ -14,16 +14,22 @@ export const Card = props => (
 
 export const CardBody = props => {
   return (
-    <section className={styles.body}>
+    <section className={styles.body} {...props}>
       <p>{props.text}</p>
     </section>
   );
 };
 
 export const CardFooter = props => (
-  <footer className={styles.footer}>{props.children}</footer>
+  <footer {...props} className={styles.footer}>
+    {props.children}
+  </footer>
 );
 
 export const CardHeader = props => {
-  return <header className={styles.header}>{props.children}</header>;
+  return (
+    <header {...props} className={styles.header}>
+      {props.children}
+    </header>
+  );
 };
