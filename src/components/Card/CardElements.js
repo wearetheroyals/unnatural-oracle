@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './CardStyles.module.css';
 import { ThemeContext } from '../Theme';
 
@@ -13,7 +13,11 @@ export const Card = props => (
 );
 
 export const CardBody = props => {
-  return <section className={styles.body}>{props.children}</section>;
+  return (
+    <section className={styles.body}>
+      <p>{props.text}</p>
+    </section>
+  );
 };
 
 export const CardFooter = props => (

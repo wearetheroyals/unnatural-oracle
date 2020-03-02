@@ -42,7 +42,8 @@ body {
 
 html {
   --font-family: 'DM Sans', sans-serif;
-  --font-size: min(calc(4px + 4.4vw), 24px);
+  /* --font-size: min(calc(4px + 2vh), 24px); */
+  --font-size: calc(1em + 1vh);
   --line-height: 1.55em;
   --text-rendering: optimizeSpeed;
 
@@ -65,7 +66,7 @@ html {
 
 main {
   height: 100vh;
-  min-height: 400px;
+  min-height: 550px;
 }
 
 @media (min-aspect-ratio: 2/3) {

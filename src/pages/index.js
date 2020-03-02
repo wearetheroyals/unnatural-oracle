@@ -58,12 +58,12 @@ export default class CardPage extends React.Component {
   };
 
   get currentCard() {
-    // return this.state.records.seen[this.state.records.seen.length - 1];
     return lastItem(this.state.records.seen);
   }
 
   render() {
     const { className } = getPaletteAtIndex(this.state.paletteIndex);
+    const content = this.currentCard;
 
     return (
       <Layout>
@@ -72,9 +72,7 @@ export default class CardPage extends React.Component {
             <CardHeader>
               <OracleEye />
             </CardHeader>
-            <CardBody>
-              <p>{this.currentCard}</p>
-            </CardBody>
+            <CardBody text={content} />
             <CardFooter>
               <Logo />
             </CardFooter>
@@ -96,14 +94,3 @@ export const query = graphql`
     }
   }
 `;
-// export const query = graphql`
-//   query {
-//     allAirtable(filter: { table: { eq: "spark" } }) {
-//       nodes {
-//         data {
-//           content
-//         }
-//       }
-//     }
-//   }
-// `;
