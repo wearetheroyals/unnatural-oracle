@@ -1,27 +1,37 @@
 ### Local Dev server
 
-You can use the Now CLI to start a local dev server and watch for changes to src files. The local server also includes support for testing the serverless functions in your /api directory without the need for deployment to Now.
+`gatsby develop` has been mapped to the start script in package.json, so kick your local dev into gear with:
 
 ```shell
-now dev
+npm start
 ```
 
-NOTE: The React dev server will launch your browser to localhost:[some-port], but this won't be able to access Now's serverless app. You need to change the port on the localhost url to 3000.
+# .env
 
-`localhost:3000`
+- Rename `env.example` to `.env` in your project root and fill in the reqired Airtable credentials.
 
 # Deployment
 
 Hosted on the Advance Party account of Zeit's now.sh service.
-The now.sh project is connected to Advance Party's GitHub account for continuous deployment.
 
-A list of all deployments can be see at https://github.com/AdvanceParty/provocations/deployments
+Once all of the setup steps have been completed, you can deploy to staging or prod from the terminal.
 
-## 1. Production
+### Setting up
 
-The app will be redeployed whenever you push to the master brach of the Github repo.
+- Download and install the [Now CLI](https://zeit.co/download) tool if you don't already have it.
+- Run `now login` and log the CLI tool into the AdvanceParty account (or have your own Now account linked to this project on Zeit).
+- In your terminal, cd into the project root
+- type `now` and follow the prompts to connect your local dev to the Zeit project
+  - Choose the Advance Party team
+  - Connect to existing project
+  - Choose project "sparky"
 
-### 2. Dev
+#### 1. Staging
 
-Pushing to a non-master branch on the repo will trigger a preview deployment.
-  
+- CD into the project root on your terminal
+- type `now`
+
+#### 2. Production
+
+- CD into the project root on your terminal
+- type `now --prod`

@@ -8,7 +8,7 @@ import OracleEye from '../components/OracleEye';
 import Logo from '../assets/logo.svg';
 
 // Theming via hooks and context provider
-import { ThemeContext, getPaletteAtIndex } from '../Theme';
+import { ThemeContext, getPaletteAtIndex } from '../components/Theme';
 
 const lastItem = arr => arr[arr.length - 1];
 const shuffle = arr => [...arr].sort(item => (Math.random() > 0.5 ? 1 : -1));
@@ -16,10 +16,7 @@ const shuffle = arr => [...arr].sort(item => (Math.random() > 0.5 ? 1 : -1));
 export default class CardPage extends React.Component {
   constructor(props) {
     super(props);
-
-    const { data } = props;
-    const { allAirtable } = data;
-    const records = allAirtable.nodes.map(item => item.data.content);
+    const records = props.data.allAirtable.nodes.map(item => item.data.content);
 
     this.state = {
       records: {
@@ -57,6 +54,7 @@ export default class CardPage extends React.Component {
 
     // update state object
     this.setState({ records: { seen, unseen } });
+    this.changePalette();
   };
 
   get currentCard() {

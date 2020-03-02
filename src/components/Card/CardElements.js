@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './CardStyles.module.css';
-import { ThemeContext } from '../../Theme';
+import { ThemeContext } from '../Theme';
 
 export const Card = props => (
   <ThemeContext.Consumer>
