@@ -28,6 +28,7 @@ module.exports = {
     },
     {
       resolve: 'gatsby-plugin-react-svg'
-    }
+    },
+    `gatsby-plugin-react-helmet`
   ]
 };
