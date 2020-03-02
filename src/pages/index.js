@@ -3,17 +3,16 @@ import { graphql } from 'gatsby';
 
 // context providers
 import ModalContext from '../store/modalContext';
+import { ThemeContext, getPaletteAtIndex } from '../components/Theme';
 
 // UI Components
 import { Card, CardFooter, CardHeader, CardBody } from '../components/Card';
 import OracleEye from '../components/OracleEye';
 import Logo from '../assets/logo.svg';
+import { lastItem, shuffle } from '../arrayUtil';
 
-// Theming via hooks and context provider
-import { ThemeContext, getPaletteAtIndex } from '../components/Theme';
-
-const lastItem = arr => arr[arr.length - 1];
-const shuffle = arr => [...arr].sort(item => (Math.random() > 0.5 ? 1 : -1));
+// const lastItem = arr => arr[arr.length - 1];
+// const shuffle = arr => [...arr].sort(item => (Math.random() > 0.5 ? 1 : -1));
 
 export default class CardPage extends React.Component {
   constructor(props) {
@@ -23,8 +22,7 @@ export default class CardPage extends React.Component {
     this.state = {
       records: {
         unseen: shuffle(records),
-        seen: [],
-        current: null
+        seen: []
       },
       paletteIndex: 0
     };
@@ -59,13 +57,9 @@ export default class CardPage extends React.Component {
     this.changePalette();
   };
 
-  get currentCard() {
-    return lastItem(this.state.records.seen);
-  }
-
   render() {
     const { className } = getPaletteAtIndex(this.state.paletteIndex);
-    const content = this.currentCard;
+    const content = lastItem(this.state.records.seen);
 
     return (
       <ThemeContext.Provider value={className}>

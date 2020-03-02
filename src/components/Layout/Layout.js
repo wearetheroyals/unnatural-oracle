@@ -12,9 +12,7 @@ export default ({ children }) => {
     <>
       {htmlHead}
       <ModalContext.Consumer>
-        {({ open }) => {
-          return <Info open={open} />;
-        }}
+        {({ open }) => <Info open={open} />}
       </ModalContext.Consumer>
       <main>{children}</main>
     </>

@@ -12,18 +12,18 @@ const Info = ({ open }) => {
 
   return (
     <ModalContext.Consumer>
-      {({ closeModal }) =>
-        open ? (
-          <motion.div
-            variants={variants}
-            animate={open ? 'open' : 'closed'}
-            className='wtf'
-            onClick={closeModal}
-          >
-            {modalContent}
-          </motion.div>
-        ) : null
-      }
+      {({ closeModal }) => (
+        <motion.div
+          variants={container}
+          initial={closed}
+          transition={duration}
+          animate={open ? 'open' : 'closed'}
+          className='wtf'
+          onClick={closeModal}
+        >
+          <motion.section variants={inner}>{modalContent}</motion.section>
+        </motion.div>
+      )}
     </ModalContext.Consumer>
   );
 };
@@ -31,7 +31,7 @@ const Info = ({ open }) => {
 export default Info;
 
 const modalContent = (
-  <section>
+  <>
     <h3>WTF?</h3>
     <p>This is a thing by The Royals. We built it because, yeah. Why not.</p>
     <p>
@@ -47,22 +47,37 @@ const modalContent = (
       If you like this, you'll love{' '}
       <a href='https://theroyals.com.au'>our website</a>.
     </p>
-  </section>
+  </>
 );
 
-const duration = 0.75;
+const duration = 0.5;
 
-const variants = {
+const container = {
   open: {
-    transform: 'rotateX(0deg)',
     opacity: 1,
-    top: 0,
-    transition: { duration: duration }
+    scale: 1,
+    transition: {
+      when: 'beforeChildren',
+      staggerChildren: 1.5
+    }
   },
   closed: {
     opacity: 0,
-    top: '-50%',
-    transform: 'rotateX(-90deg)',
-    transition: { duration }
+    scale: 0.1,
+    transition: {
+      when: 'afterChildren',
+      staggerChildren: 0.5
+    }
+  }
+};
+
+const inner = {
+  open: {
+    opacity: 1,
+    scale: 1
+  },
+  closed: {
+    opacity: 0,
+    scale: 0.1
   }
 };

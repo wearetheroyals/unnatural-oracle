@@ -1,41 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const defaultState = {
-  open: true
-};
-
+const defaultState = false;
 const ModalContext = React.createContext(defaultState);
 
-class ModalProvider extends React.Component {
-  state = {
-    open: true
-  };
+const ModalProvider = props => {
+  const [isOpen, setOpen] = useState(defaultState);
 
-  close = () => {
-    this.setState({ open: false });
-  };
+  const close = () => setOpen(false);
+  const open = () => setOpen(true);
 
-  open = () => {
-    this.setState({ open: true });
-  };
-
-  render() {
-    const { children } = this.props;
-    const { open } = this.state;
-    return (
-      <ModalContext.Provider
-        value={{
-          open,
-          closeModal: this.close,
-          openModal: this.open
-        }}
-      >
-        {children}
-      </ModalContext.Provider>
-    );
-  }
-}
+  return (
+    <ModalContext.Provider
+      value={{
+        open: isOpen,
+        closeModal: close,
+        openModal: open
+      }}
+    >
+      {props.children}
+    </ModalContext.Provider>
+  );
+};
 
 export default ModalContext;
-
 export { ModalProvider };
