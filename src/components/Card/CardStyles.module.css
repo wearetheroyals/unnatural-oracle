@@ -7,24 +7,18 @@
   cursor: pointer;
 }
 
-@media (min-aspect-ratio: 2/3) {
-  .card {
-    --dist: calc(0.2vw + 0.5vh + 0.5px);
-    --dist2: calc(var(--dist) * 3);
-
-    border-radius: 0 1em;
-    overflow: hidden;
-    min-width: 300px;
-    max-width: 50vh;
-    margin: 0 auto;
-    box-shadow: var(--dist) var(--dist) var(--dist2) var(--dist)
-      rgba(0, 0, 0, 0.3);
-  }
-}
-
 .card > * {
   background-color: var(--col-bg);
   color: var(--col-text);
+
+  /*
+    force superlong words and urls
+    to break over multiple lines rather
+    than let them push out the box width
+  */
+  word-break: break-word;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .card svg {
@@ -33,6 +27,8 @@
 
 .body {
   --col-bg: var(--col-darker);
+
+  font-size: calc(var(--font-size) * 1.5);
 
   padding: 2em 1.5em;
   display: flex;
@@ -46,6 +42,7 @@
   color: var(--col-darker);
 
   padding: 2em 0;
+  padding-bottom: calc(2em + 80px);
   text-align: center;
   text-transform: uppercase;
   font-size: 0.8em;
@@ -63,4 +60,23 @@
 .header svg {
   margin: 7% auto;
   max-width: 40%;
+}
+
+@media (min-aspect-ratio: 2/3) {
+  .card {
+    --dist: calc(0.2vw + 0.5vh + 0.5px);
+    --dist2: calc(var(--dist) * 3);
+
+    border-radius: 0 1em;
+    overflow: hidden;
+    min-width: 300px;
+    max-width: 50vh;
+    margin: 0 auto;
+    box-shadow: var(--dist) var(--dist) var(--dist2) var(--dist)
+      rgba(0, 0, 0, 0.3);
+  }
+
+  .footer {
+    padding-bottom: 2em;
+  }
 }

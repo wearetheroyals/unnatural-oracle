@@ -3,7 +3,7 @@ import { graphql } from 'gatsby';
 
 // context providers
 import ModalContext from '../store/modalContext';
-import { ThemeContext, getPaletteAtIndex } from '../components/Theme';
+import { ThemeContext, paletteManager } from '../components/Theme';
 
 import Layout from '../components/Layout';
 
@@ -11,57 +11,46 @@ import Layout from '../components/Layout';
 import { Card, CardFooter, CardHeader, CardBody } from '../components/Card';
 import OracleEye from '../components/OracleEye';
 import Logo from '../assets/logo.svg';
-import { lastItem, shuffle } from '../arrayUtil';
 
-// const lastItem = arr => arr[arr.length - 1];
-// const shuffle = arr => [...arr].sort(item => (Math.random() > 0.5 ? 1 : -1));
+// utilities
+import deckGenerator from '../util/deckGenerator';
 
 export default class CardPage extends React.Component {
   constructor(props) {
     super(props);
-    const records = props.data.allAirtable.nodes.map(item => item.data.content);
+
+    // this._records = props.data.allAirtable.nodes.map(item => item.data.content);
+    this._records = [
+      'This is a longer one with lots of info and text and you should really think about supercalifragilistic things.',
+      'Shorty',
+      'http://www.thisisa.weblink.com.extradomain.oddity link'
+    ];
+
+    this._deck = deckGenerator(this._records);
 
     this.state = {
-      records: {
-        unseen: shuffle(records),
-        seen: []
-      },
-      paletteIndex: 0
+      card: null,
+      palette: null
     };
   }
 
-  componentDidMount = () => {
-    this.nextCard();
-  };
-
-  changePalette = () => {
-    const { index } = getPaletteAtIndex(this.state.paletteIndex + 1);
-    this.setState({ paletteIndex: index });
-  };
-
-  resetDeck = cards => {
-    unseen = shuffle(cards);
-    seen = [];
-  };
+  componentDidMount = () => this.nextCard();
+  resetDeck = () => (this._deck = deckGenerator(this._records));
 
   nextCard = () => {
-    let { seen, unseen } = this.state.records;
+    // grab the next card
+    const { value, done } = this._deck.next();
+    this.setState({ card: value });
 
-    // If the unseen stack is empty, reset it
-    unseen.length == 0 ? this.resetDeck(seen) : null;
+    // if that was the last card, reset the deck
+    if (done) this.resetDeck();
 
-    // pop a new current card off the unseen deck
-    // and move it to the seen deck
-    seen.push(unseen.pop());
-
-    // update state object
-    this.setState({ records: { seen, unseen } });
-    this.changePalette();
+    // change the palette
+    paletteManager.next();
   };
 
   render() {
-    const { className } = getPaletteAtIndex(this.state.paletteIndex);
-    const content = lastItem(this.state.records.seen);
+    const { className } = paletteManager.currentPalette;
 
     return (
       <Layout>
@@ -70,7 +59,7 @@ export default class CardPage extends React.Component {
             <CardHeader onClick={() => this.nextCard()}>
               <OracleEye />
             </CardHeader>
-            <CardBody text={content} onClick={() => this.nextCard()} />
+            <CardBody text={this.state.card} onClick={() => this.nextCard()} />
             <ModalContext.Consumer>
               {({ openModal }) => (
                 <CardFooter onClick={openModal}>

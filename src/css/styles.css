@@ -3,7 +3,34 @@
 html,
 body {
   width: 100%;
+  height: 100%;
   min-height: 100vh;
+}
+
+html {
+  --font-family: 'DM Sans', sans-serif;
+  --font-size: calc(10px + 1vh);
+  --line-height: 1.45em;
+  --text-rendering: optimizeSpeed;
+
+  --col-body-bg: #fff;
+  --col-text-body: rgba(60, 60, 60, 0.8);
+  --col-text-body-invert: rgba(255, 255, 255, 0.8);
+  --col-text-heading: #333344;
+  --col-text-subheading: #333344;
+
+  --z-nav: 100;
+  --z-overlay: 200;
+}
+
+body {
+  /* position: fixed; */
+
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  text-rendering: var(--text-rendering);
+
+  color: var(--col-text-body);
 
   background-color: #6d695c;
   background-image: repeating-linear-gradient(
@@ -39,33 +66,6 @@ body {
   background-size: 70px 120px;
 }
 
-html {
-  --font-family: 'DM Sans', sans-serif;
-  /* --font-size: min(calc(4px + 2vh), 24px); */
-  --font-size: calc(10px + 1vh);
-  --line-height: 1.45em;
-  --text-rendering: optimizeSpeed;
-
-  font-family: var(--font-family);
-  line-height: var(--line-height);
-  font-size: var(--font-size);
-  text-rendering: var(--text-rendering);
-
-  color: var(--col-text-body);
-  background: var(--col-body-bg);
-
-  min-height: 100vh;
-
-  --col-body-bg: #fff;
-  --col-text-body: rgba(60, 60, 60, 0.8);
-  --col-text-body-invert: rgba(255, 255, 255, 0.8);
-  --col-text-heading: #333344;
-  --col-text-subheading: #333344;
-
-  --z-nav: 100;
-  --z-overlay: 200;
-}
-
 h1,
 h2,
 h3,
@@ -73,14 +73,20 @@ h4,
 h5,
 h6 {
   margin-bottom: 2em;
+  line-height: var(--line-height);
 }
 
 p {
   margin-bottom: 1.5em;
+  line-height: var(--line-height);
 }
 
 main {
   height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  position: fixed;
+  overflow: scroll;
   min-height: 550px;
 }
 
@@ -103,6 +109,8 @@ nav.primary a {
 @media (min-aspect-ratio: 2/3) {
   main {
     padding: 2em 0;
+    position: static;
+    width: inherit;
   }
 
   .wtf > section {
