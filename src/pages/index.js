@@ -18,14 +18,7 @@ import deckGenerator from '../util/deckGenerator';
 export default class CardPage extends React.Component {
   constructor(props) {
     super(props);
-
-    // this._records = props.data.allAirtable.nodes.map(item => item.data.content);
-    this._records = [
-      'This is a longer one with lots of info and text and you should really think about supercalifragilistic things.',
-      'Shorty',
-      'http://www.thisisa.weblink.com.extradomain.oddity link'
-    ];
-
+    this._records = props.data.allAirtable.nodes.map(item => item.data.content);
     this._deck = deckGenerator(this._records);
 
     this.state = {

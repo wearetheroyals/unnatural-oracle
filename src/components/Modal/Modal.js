@@ -1,11 +1,27 @@
 import React, { useState, useMemo } from 'react';
 import ModalContext from '../../store/modalContext';
-import { motion } from 'framer-motion';
+import { motion, animatePresence, AnimatePresence } from 'framer-motion';
 import styles from './ModalStyles.module.css';
 
-const Info = ({ open }) => {
+const Modal = ({ open }) => {
   const handlLifeCycle = () => {
-    console.log('Lifecycle methods!');
+    // open ? animate.open() : animate.close();
+  };
+
+  const container = {
+    hidden: { opacity: 0, transition: { delay: 0.3 } },
+    visible: { opacity: 1 }
+  };
+
+  const content = {
+    hidden: { scaleX: 0, scaleY: 0, opacity: 0, y: '-160%' },
+    visible: {
+      scaleX: 1,
+      scaleY: 1,
+      opacity: 1,
+      y: 0,
+      transition: { delay: 0.3 }
+    }
   };
 
   // each time the open prop changes, run handleLifeCycle()
@@ -14,22 +30,31 @@ const Info = ({ open }) => {
   return (
     <ModalContext.Consumer>
       {({ closeModal }) => (
-        <motion.div
-          variants={container}
-          initial={'closed'}
-          transition={duration}
-          animate={open ? 'open' : 'closed'}
-          className={styles.modal}
-          onClick={closeModal}
-        >
-          <motion.section variants={inner}>{modalContent}</motion.section>
+        <motion.div onClick={closeModal}>
+          <AnimatePresence>
+            {open ? (
+              <motion.div
+                className={styles.container}
+                variants={container}
+                initial='hidden'
+                animate='visible'
+                exit='hidden'
+              >
+                <motion.section className={styles.content} variants={content}>
+                  {modalContent}
+                </motion.section>
+              </motion.div>
+            ) : (
+              ''
+            )}
+          </AnimatePresence>
         </motion.div>
       )}
     </ModalContext.Consumer>
   );
 };
 
-export default Info;
+export default Modal;
 
 const modalContent = (
   <>
@@ -50,35 +75,3 @@ const modalContent = (
     </p>
   </>
 );
-
-const duration = 0.5;
-
-const container = {
-  open: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      when: 'beforeChildren',
-      staggerChildren: 1.5
-    }
-  },
-  closed: {
-    opacity: 0,
-    scale: 0.1,
-    transition: {
-      when: 'afterChildren',
-      staggerChildren: 0.5
-    }
-  }
-};
-
-const inner = {
-  open: {
-    opacity: 1,
-    scale: 1
-  },
-  closed: {
-    opacity: 0,
-    scale: 0.1
-  }
-};

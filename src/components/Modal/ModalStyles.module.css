@@ -1,4 +1,4 @@
-.modal {
+.container {
   position: fixed;
   z-index: 200;
   min-height: 100vh;
@@ -15,11 +15,12 @@
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-.modal > section {
+.content {
   padding: 3em 2em;
   font-size: 0.8em;
   flex-grow: 0;
   width: 100%;
+  max-width: 580px;
   border-radius: 10px;
   mix-blend-mode: difference;
   background-color: #fff;
