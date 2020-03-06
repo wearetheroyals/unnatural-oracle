@@ -14,25 +14,34 @@ import Logo from '../assets/logo.svg';
 
 // utilities
 import deckGenerator from '../util/deckGenerator';
+import { filenameFromAbsolutePath } from '../util/stringUtils';
 
 export default class CardPage extends React.Component {
   constructor(props) {
     super(props);
-    this._records = props.data.allAirtable.nodes.map(item => item.data.content);
-    this._deck = deckGenerator(this._records);
+    this.records = props.data.allAirtable.nodes.map(item => item.data.content);
+    this.deck = deckGenerator(this.records);
+    this.modalContent = props.data.modalContent.nodes.reduce((acc, node) => {
+      const { fileAbsolutePath, ...obj } = node;
+      const key = filenameFromAbsolutePath(fileAbsolutePath);
+      return { ...acc, [key]: { ...obj.frontmatter, html: obj.html } };
+    }, {});
 
     this.state = {
       card: null,
       palette: null
     };
+
+    console.log(this.props.data);
+    console.log(this.modalContent.about);
   }
 
   componentDidMount = () => this.nextCard();
-  resetDeck = () => (this._deck = deckGenerator(this._records));
+  resetDeck = () => (this.deck = deckGenerator(this.records));
 
   nextCard = () => {
     // grab the next card
-    const { value, done } = this._deck.next();
+    const { value, done } = this.deck.next();
     this.setState({ card: value });
 
     // if that was the last card, reset the deck
@@ -54,8 +63,13 @@ export default class CardPage extends React.Component {
             </CardHeader>
             <CardBody text={this.state.card} onClick={() => this.nextCard()} />
             <ModalContext.Consumer>
-              {({ openModal }) => (
-                <CardFooter onClick={openModal}>
+              {({ openModal, setMessage }) => (
+                <CardFooter
+                  onClick={() => {
+                    setMessage(this.modalContent.about);
+                    openModal();
+                  }}
+                >
                   <Logo />
                 </CardFooter>
               )}
@@ -74,6 +88,17 @@ export const query = graphql`
         data {
           content
         }
+      }
+    }
+    modalContent: allMarkdownRemark(
+      filter: { fileAbsolutePath: { regex: "/modal/[^/]*md$/" } }
+    ) {
+      nodes {
+        frontmatter {
+          title
+        }
+        html
+        fileAbsolutePath
       }
     }
   }

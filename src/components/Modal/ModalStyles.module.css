@@ -1,4 +1,4 @@
-.container {
+.outer {
   position: fixed;
   z-index: 200;
   min-height: 100vh;
@@ -15,7 +15,7 @@
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-.content {
+.inner {
   padding: 3em 2em;
   font-size: 0.8em;
   flex-grow: 0;
