@@ -2,8 +2,8 @@
 title: WTF
 ---
 
-This is a thing by The Royals. We built it because, yeah. Why not.
+Creativity requires looking at the world in different and less expected ways. These cards are an invitation to do just that; from little missions to thought deviations, we’ve compiled a bunch of techniques that we use to help us do just that, and now they are yours to use too.
 
-This is it. This is the answer. It says here that a bolt of lightning is gonna strike the clock tower precisely at 10:04 p.m. next Saturday night. If we could somehow harness this bolt of lightning, channel it into the flux capacitor, it just might work. Next Saturday night, we're sending you back to the future. Ah well, sort of. What, well you mean like a date? Scram, McFly. Thank god I still got my hair. What on Earth is that thing I'm wearing?
+We will keep adding to them, so save the link or add it to your phone’s home screen and flick on. We hope you like them.
 
-If you like this, you'll love [our website](https://theroyals.com.au).
+You can learn more about Unnatural Change and what make the Royals awesome on [our website](https://theroyals.com.au).
