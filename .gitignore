@@ -7,3 +7,4 @@ public/bundle.*
 .now
 .cache
 public
+.vercel

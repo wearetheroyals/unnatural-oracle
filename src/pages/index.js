@@ -44,7 +44,7 @@ export default class CardPage extends React.Component {
       <Layout>
         <ThemeContext.Provider value={className}>
           <Card>
-            <CardHeader onClick={() => this.nextCard()}>
+            <CardHeader>
               <OracleEye />
             </CardHeader>
             <CardBody text={this.state.card} onClick={() => this.nextCard()} />

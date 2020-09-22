@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './CardStyles.module.css';
 import { ThemeContext } from '../Theme';
 
 import Logo from '../../assets/logo.svg';
+import NextIcon from '../../assets/icon_next.svg';
 import InfoButton from '../InfoButton';
 
 export const Card = (props) => (
@@ -16,8 +17,15 @@ export const Card = (props) => (
 );
 
 export const CardBody = (props) => {
+  const [classes, setClasses] = useState([styles.body]);
   return (
-    <section className={styles.body} {...props}>
+    <section
+      {...props}
+      className={classes.join(' ')}
+      onMouseEnter={() => setClasses([styles.body, styles.hover])}
+      onMouseLeave={() => setClasses([styles.body])}
+    >
+      <NextIcon className={styles.nextCard} />
       <p>{props.text}</p>
     </section>
   );

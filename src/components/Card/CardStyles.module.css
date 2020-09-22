@@ -20,11 +20,8 @@
   overflow-wrap: break-word;
 }
 
-.card svg {
-  fill: var(--col-darker);
-}
-
 .body {
+  position: relative;
   --col-bg: var(--col-darker);
 
   font-size: calc(var(--font-size) * 1.5);
@@ -33,8 +30,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   user-select: none;
+}
+
+.header svg,
+.footer svg {
+  fill: var(--col-darker);
+}
+
+.nextCard {
+  fill: var(--col-lighter);
+  position: absolute;
+  width: 40px;
+  height: auto;
+  bottom: 20px;
+  right: 20px;
+  transition: all 400ms;
+  filter: drop-shadow(2px 3px 0px rgba(0, 0, 0, 0));
+}
+
+.hover .nextCard {
+  transform: translateX(5px) scale(1.1);
+  filter: drop-shadow(2px 3px 0px rgba(0, 0, 0, 0.4));
 }
 
 .footer {
