@@ -1,0 +1,16 @@
+/* ib > * {
+  transform-origin: 50% 50%;
+} */
+
+.ib > * {
+  transform-origin: center center;
+  transition: 500ms transform;
+}
+
+.ib.flipped > :first-child {
+  transform: rotateY(180deg);
+}
+
+.ib.flipped > :last-child {
+  transform: translate(11.48938%, 11.48938%);
+}

@@ -15,33 +15,33 @@ module.exports = {
         tables: [
           {
             baseId: DB_ID,
-            tableName: 'spark'
-          }
-        ]
-      }
+            tableName: 'spark',
+          },
+        ],
+      },
     },
     {
       resolve: `gatsby-plugin-postcss`,
       options: {
-        postCssPlugins: [require(`postcss-preset-env`)({ stage: 0 })]
-      }
+        postCssPlugins: [require(`postcss-preset-env`)({ stage: 0 })],
+      },
     },
     {
-      resolve: 'gatsby-plugin-react-svg'
+      resolve: 'gatsby-plugin-react-svg',
     },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/src/content`,
-        name: 'content'
-      }
+        path: `${__dirname}/src/content/modal`,
+        name: 'modalContent',
+      },
     },
     {
       resolve: `gatsby-transformer-remark`,
       options: {
-        plugins: []
-      }
-    }
-  ]
+        plugins: [],
+      },
+    },
+  ],
 };

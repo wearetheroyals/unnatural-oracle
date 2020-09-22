@@ -4,13 +4,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import styles from './ModalStyles.module.css';
 
 const Modal = ({ open }) => {
-  const handlLifeCycle = () => {
+  const handleLifeCycle = () => {
     // open ? animate.open() : animate.close();
   };
 
   const outer = {
     hidden: { opacity: 0, transition: { delay: 0.3 } },
-    visible: { opacity: 1 }
+    visible: { opacity: 1 },
   };
 
   const inner = {
@@ -20,12 +20,12 @@ const Modal = ({ open }) => {
       scaleY: 1,
       opacity: 1,
       y: 0,
-      transition: { delay: 0.3 }
-    }
+      transition: { delay: 0.3 },
+    },
   };
 
   // each time the open prop changes, run handleLifeCycle()
-  useMemo(handlLifeCycle, [open]);
+  useMemo(handleLifeCycle, [open]);
   return (
     <ModalContext.Consumer>
       {({ closeModal, message }) => (

@@ -1,8 +1,6 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 
-// context providers
-import ModalContext from '../store/modalContext';
 import { ThemeContext, paletteManager } from '../components/Theme';
 
 import Layout from '../components/Layout';
@@ -11,29 +9,21 @@ import Layout from '../components/Layout';
 import { Card, CardFooter, CardHeader, CardBody } from '../components/Card';
 import OracleEye from '../components/OracleEye';
 import Logo from '../assets/logo.svg';
+import InfoButton from '../components/InfoButton';
 
 // utilities
 import deckGenerator from '../util/deckGenerator';
-import { filenameFromAbsolutePath } from '../util/stringUtils';
 
 export default class CardPage extends React.Component {
   constructor(props) {
     super(props);
-    this.records = props.data.allAirtable.nodes.map(item => item.data.content);
+    this.records = props.data.allAirtable.nodes.map((item) => item.data.content);
     this.deck = deckGenerator(this.records);
-    this.modalContent = props.data.modalContent.nodes.reduce((acc, node) => {
-      const { fileAbsolutePath, ...obj } = node;
-      const key = filenameFromAbsolutePath(fileAbsolutePath);
-      return { ...acc, [key]: { ...obj.frontmatter, html: obj.html } };
-    }, {});
 
     this.state = {
       card: null,
-      palette: null
+      palette: null,
     };
-
-    console.log(this.props.data);
-    console.log(this.modalContent.about);
   }
 
   componentDidMount = () => this.nextCard();
@@ -62,18 +52,10 @@ export default class CardPage extends React.Component {
               <OracleEye />
             </CardHeader>
             <CardBody text={this.state.card} onClick={() => this.nextCard()} />
-            <ModalContext.Consumer>
-              {({ openModal, setMessage }) => (
-                <CardFooter
-                  onClick={() => {
-                    setMessage(this.modalContent.about);
-                    openModal();
-                  }}
-                >
-                  <Logo />
-                </CardFooter>
-              )}
-            </ModalContext.Consumer>
+            <CardFooter>
+              <InfoButton props={{ modalContent: this.props.data.modalContent }} />
+              <Logo />
+            </CardFooter>
           </Card>
         </ThemeContext.Provider>
       </Layout>
@@ -90,9 +72,7 @@ export const query = graphql`
         }
       }
     }
-    modalContent: allMarkdownRemark(
-      filter: { fileAbsolutePath: { regex: "/modal/[^/]*md$/" } }
-    ) {
+    modalContent: allMarkdownRemark(filter: { fileAbsolutePath: { regex: "/modal/[^/]*md$/" } }) {
       nodes {
         frontmatter {
           title

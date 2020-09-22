@@ -4,12 +4,12 @@ const defaultState = false;
 const ModalContext = React.createContext(defaultState);
 const defaultContent = { title: 'Hello', html: 'I am a message' };
 
-const ModalProvider = props => {
+const ModalProvider = (props) => {
   const [isOpen, setOpen] = useState(defaultState);
   const [messageObject, setMessageObject] = useState(defaultContent);
   const close = () => setOpen(false);
   const open = () => setOpen(true);
-  const updateMessage = obj => {
+  const updateMessage = (obj) => {
     console.log('Update message:');
     console.log(obj);
     setMessageObject(obj);
@@ -21,7 +21,7 @@ const ModalProvider = props => {
         message: messageObject,
         setMessage: updateMessage,
         closeModal: close, // expose external closeModel methos and pass to internal close method;
-        openModal: open
+        openModal: open,
       }}
     >
       {props.children}

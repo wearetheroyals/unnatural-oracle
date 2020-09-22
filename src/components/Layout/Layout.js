@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import htmlHead from './htmlHead';
 import ModalContext from '../../store/modalContext';
@@ -11,9 +11,7 @@ export default ({ children }) => {
   return (
     <>
       {htmlHead}
-      <ModalContext.Consumer>
-        {({ open }) => <Modal open={open} />}
-      </ModalContext.Consumer>
+      <ModalContext.Consumer>{({ open }) => <Modal open={open} />}</ModalContext.Consumer>
       <main>{children}</main>
     </>
   );
