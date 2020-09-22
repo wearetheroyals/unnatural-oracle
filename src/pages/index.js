@@ -1,18 +1,14 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 
+// theme and utils
 import { ThemeContext, paletteManager } from '../components/Theme';
-
 import Layout from '../components/Layout';
+import deckGenerator from '../util/deckGenerator';
 
 // UI Components
 import { Card, CardFooter, CardHeader, CardBody } from '../components/Card';
 import OracleEye from '../components/OracleEye';
-import Logo from '../assets/logo.svg';
-import InfoButton from '../components/InfoButton';
-
-// utilities
-import deckGenerator from '../util/deckGenerator';
 
 export default class CardPage extends React.Component {
   constructor(props) {
@@ -30,15 +26,15 @@ export default class CardPage extends React.Component {
   resetDeck = () => (this.deck = deckGenerator(this.records));
 
   nextCard = () => {
-    // grab the next card
-    const { value, done } = this.deck.next();
-    this.setState({ card: value });
+    // change the palette each time we get a new card
+    paletteManager.next();
 
-    // if that was the last card, reset the deck
+    // grab the next card
+    // and, if that is the last card, reset the deck
+    const { value, done } = this.deck.next();
     if (done) this.resetDeck();
 
-    // change the palette
-    paletteManager.next();
+    this.setState({ card: value });
   };
 
   render() {
@@ -52,10 +48,7 @@ export default class CardPage extends React.Component {
               <OracleEye />
             </CardHeader>
             <CardBody text={this.state.card} onClick={() => this.nextCard()} />
-            <CardFooter>
-              <InfoButton props={{ modalContent: this.props.data.modalContent }} />
-              <Logo />
-            </CardFooter>
+            <CardFooter />
           </Card>
         </ThemeContext.Provider>
       </Layout>
@@ -70,15 +63,6 @@ export const query = graphql`
         data {
           content
         }
-      }
-    }
-    modalContent: allMarkdownRemark(filter: { fileAbsolutePath: { regex: "/modal/[^/]*md$/" } }) {
-      nodes {
-        frontmatter {
-          title
-        }
-        html
-        fileAbsolutePath
       }
     }
   }

@@ -4,9 +4,11 @@ import InfoIcon from '../../assets/icon_info.svg';
 import ModalContext from '../../store/modalContext';
 import useContentQuery from '../../hooks/useContentQuery_About';
 
-const InfoButton = () => {
+const InfoButton = (props) => {
   const [flipped, setFlipped] = useState(false);
-  const className = `${styles.ib} ${flipped ? styles.flipped : ''}`;
+  const className = `${styles.info} ${flipped ? styles.flipped : ''} ${
+    props.className ? props.className : ''
+  }`;
   const { openModal, setMessage } = useContext(ModalContext);
   const {
     frontmatter: { title },

@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styles from './CardStyles.module.css';
 import { ThemeContext } from '../Theme';
 
-export const Card = props => (
+import Logo from '../../assets/logo.svg';
+import InfoButton from '../InfoButton';
+
+export const Card = (props) => (
   <ThemeContext.Consumer>
-    {value => (
+    {(value) => (
       <div {...props} className={`${value} ${styles.card}`}>
         {props.children}
       </div>
@@ -12,7 +15,7 @@ export const Card = props => (
   </ThemeContext.Consumer>
 );
 
-export const CardBody = props => {
+export const CardBody = (props) => {
   return (
     <section className={styles.body} {...props}>
       <p>{props.text}</p>
@@ -20,13 +23,14 @@ export const CardBody = props => {
   );
 };
 
-export const CardFooter = props => (
-  <footer {...props} className={styles.footer}>
-    {props.children}
+export const CardFooter = () => (
+  <footer className={styles.footer}>
+    <InfoButton className={styles.infoButton} />
+    <Logo className={styles.logo} />
   </footer>
 );
 
-export const CardHeader = props => {
+export const CardHeader = (props) => {
   return (
     <header {...props} className={styles.header}>
       {props.children}
